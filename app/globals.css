@@ -439,3 +439,10 @@
 .app-shell .digital-platform-link{display:inline-flex;align-items:center;gap:7px;margin-top:auto;color:#2459d3;font-size:10px;font-weight:650}
 .app-shell .social-sync-date{display:block;color:#718096;font-size:9px;margin:0 0 8px}
 @media(max-width:680px){.app-shell .digital-platform-grid{grid-template-columns:1fr}}
+
+/* Shared ZENIT brand accents: black, white, blue and gold */
+:root{--lime:#c59a3d;--blue:#2459d3}
+.app-shell .integration-add{border:1px solid #d8c08d;background:#fbf7ed;color:#9b7122;border-radius:8px}
+.app-shell .integration-add:hover{background:#f6edd9}
+.app-shell .integration-add:disabled{opacity:.58;cursor:not-allowed}
+.app-shell .digital-platform-link{margin-top:0}
