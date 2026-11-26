@@ -352,3 +352,77 @@
 .project-snapshot .analytics-snapshot-finance{grid-template-columns:repeat(5,minmax(0,1fr))}
 .project-snapshot-empty p{margin:7px 0 0;color:#9693a0;font-size:11px;line-height:1.6}
 @media(max-width:760px){.project-snapshot .analytics-snapshot-finance{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* ZENIT 2026 — white, midnight blue, black and gold private workspace */
+.app-shell{--lime:#c59a3d;--blue:#2459d3;--line:rgba(18,35,62,.12);--white:#14213d;--smoke:#64748b;background:#f4f7fc;color:#14213d}
+.app-shell .sidebar{background:#fff;border-right:1px solid #dce3ef;box-shadow:5px 0 24px rgba(20,33,61,.035)}
+.app-shell .sidebar .brand{color:#101828}.app-shell .brand-mark{border-color:#c59a3d;color:#a77c25}
+.app-shell .workspace-label{color:#8290a5}.app-shell .side-muted{color:#52627b}
+.app-shell .side-muted:hover,.app-shell .dev-nav>summary:hover{background:#edf3ff;color:#2459d3}
+.app-shell .side-active,.app-shell .dev-nav[open]>summary{background:#f8f1e3;color:#a77c25}
+.app-shell .dev-nav{color:#52627b}.app-shell .dev-subnav a{color:#52627b;border-color:#dce3ef}
+.app-shell .sidebar-bottom{border-color:#dce3ef}.app-shell .user-avatar{background:#edf2fb;color:#2459d3}
+.app-shell .user-info b{color:#14213d}.app-shell .user-info span{color:#718096}.app-shell .icon-button{color:#64748b}
+.app-shell .dashboard-main{color:#14213d}.app-shell .dashboard-header{border-color:#dce3ef}
+.app-shell .dashboard-header h1{color:#111827}.app-shell .dashboard-header p{color:#64748b}
+.app-shell .eyebrow{color:#718096}.app-shell .status-pill{color:#52627b;border-color:#dce3ef;background:#fff}
+.app-shell .status-pill i{background:#c59a3d}.app-shell .button{background:#c59a3d;color:#111827;box-shadow:none}
+.app-shell .button:hover{background:#d8b66b;box-shadow:0 8px 24px rgba(197,154,61,.18)}
+.app-shell .module-back{color:#52627b}
+.app-shell .module-form-card,.app-shell .integration-note,.app-shell .integration-sync-panel,.app-shell .module-coming,.app-shell .onboarding-card{background:#fff;border:1px solid #dce3ef;box-shadow:0 8px 28px rgba(20,33,61,.035)}
+.app-shell .module-form-card h2,.app-shell .workspace-list-head h2,.app-shell .integration-group-heading h2{color:#14213d}
+.app-shell .module-description,.app-shell .module-coming>p,.app-shell .integration-note p,.app-shell .workspace-list-head p{color:#64748b}
+.app-shell .module-form label{color:#334155}
+.app-shell .module-form input,.app-shell .module-form select{background:#fff;color:#14213d;border:1px solid #d7e0ed}
+.app-shell .module-form input:focus,.app-shell .module-form select:focus{border-color:#2459d3}
+.app-shell .workspace-row,.app-shell .integration-card,.app-shell .catalogue-card,.app-shell .module-empty,.app-shell .empty-inline{background:#fff;border:1px solid #dce3ef;color:#14213d}
+.app-shell .workspace-row b,.app-shell .catalogue-card h3,.app-shell .integration-card h3,.app-shell .module-empty b{color:#14213d}
+.app-shell .workspace-row small,.app-shell .integration-card p,.app-shell .catalogue-card p,.app-shell .module-empty span{color:#64748b}
+.app-shell .workspace-symbol{background:#edf3ff;color:#2459d3;border-color:#dce7fb}
+.app-shell .workspace-ready,.app-shell .integration-state.is-added{background:#f8f1e3;color:#9b7122;border-color:#e8d8b5}
+.app-shell .integration-pending{color:#64748b;background:#f1f5f9;border-color:#dce3ef}
+.app-shell .integration-note{color:#14213d}.app-shell .integration-note svg,.app-shell .integration-group-heading svg{color:#2459d3}
+.app-shell .success-banner{background:#f0f8f2;color:#246b3b;border-color:#cde8d4}
+.app-shell .form-message{background:#fff5f3;color:#a33d31;border-color:#f1d0ca}
+.app-shell .dashboard-foot{color:#8290a5;border-color:#dce3ef}
+.app-shell .digital-types>div,.app-shell .store-connect-grid>article,.app-shell .social-hero,.app-shell .integration-intro{background:#fff;border:1px solid #dce3ef;color:#14213d}
+.app-shell .digital-types b,.app-shell .store-connect-grid b,.app-shell .social-hero h2,.app-shell .integration-intro h2{color:#14213d}
+.app-shell .digital-types small,.app-shell .store-connect-grid small,.app-shell .social-hero p,.app-shell .integration-intro p{color:#64748b}
+.app-shell .catalogue-search input{background:#fff;color:#14213d;border-color:#dce3ef}
+.app-shell .catalogue-categories button{background:#fff;color:#52627b;border-color:#dce3ef}
+.app-shell .catalogue-categories button.active{background:#edf3ff;color:#2459d3;border-color:#b8cdf8}
+.app-shell .catalogue-toolbar{color:#64748b}.app-shell .integration-sync-row{border-color:#e5eaf2}
+.app-shell .integration-sync-row b{color:#14213d}.app-shell .integration-sync-row small{color:#64748b}
+.app-shell .integration-sync-status{color:#64748b}
+.app-shell .ecosystem-welcome{display:flex;align-items:center;justify-content:space-between;gap:28px;margin:26px 0 22px;padding:30px 34px;background:linear-gradient(120deg,#101d35,#172d50);border:1px solid #243e65;color:#fff;border-radius:18px}
+.app-shell .ecosystem-welcome h2{font:750 clamp(26px,3vw,38px)/1.15 Manrope;letter-spacing:-.045em;margin:13px 0}
+.app-shell .ecosystem-welcome h2 em{font-style:normal;color:#e2c17d}
+.app-shell .ecosystem-welcome p{max-width:610px;margin:0;color:#d2dbea;font-size:12px;line-height:1.8}
+.app-shell .ecosystem-welcome .eyebrow{color:#c6d3e8}
+.app-shell .ecosystem-total{min-width:205px;padding:20px 22px;background:#ffffff10;border:1px solid #ffffff24;border-radius:14px;display:grid;gap:7px}
+.app-shell .ecosystem-total span,.app-shell .ecosystem-total small{color:#d2dbea;font-size:10px}
+.app-shell .ecosystem-total b{font:750 34px Manrope;color:#e2c17d}
+.app-shell .ecosystem-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0 28px}
+.app-shell .ecosystem-card{min-width:0;padding:22px;background:#fff;border:1px solid #dce3ef;border-radius:15px;box-shadow:0 7px 24px rgba(20,33,61,.035);display:flex;flex-direction:column}
+.app-shell .ecosystem-card-head{display:flex;align-items:center;justify-content:space-between}
+.app-shell .ecosystem-card-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#edf3ff;color:#2459d3}
+.app-shell .ecosystem-count{font:750 26px Manrope;color:#14213d}
+.app-shell .ecosystem-card h2{font:700 18px Manrope;color:#14213d;margin:15px 0 4px}
+.app-shell .ecosystem-card>p{font-size:10px;color:#64748b;margin:0 0 14px}
+.app-shell .ecosystem-items{display:grid;gap:0;max-height:310px;overflow:auto}
+.app-shell .ecosystem-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #edf0f5;min-width:0}
+.app-shell .ecosystem-logo{width:32px;height:32px;flex:0 0 auto;display:grid;place-items:center;border:1px solid #e1e7f0;border-radius:9px;background:#f8fafc;color:#2459d3;font-weight:700}
+.app-shell .ecosystem-logo img{width:19px;height:19px;object-fit:contain}
+.app-shell .ecosystem-item-copy{display:grid;gap:3px;min-width:0;flex:1}
+.app-shell .ecosystem-item-copy b{font-size:11px;color:#14213d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app-shell .ecosystem-item-copy small{font-size:9px;color:#718096}
+.app-shell .ecosystem-item>a{width:28px;height:28px;display:grid;place-items:center;border:1px solid #dce3ef;border-radius:8px;color:#2459d3}
+.app-shell .ecosystem-empty{padding:17px 0;color:#718096;font-size:10px;line-height:1.7}
+.app-shell .ecosystem-more{display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:15px;color:#a77c25;font-size:11px;font-weight:700}
+.app-shell .dashboard-dev-shortcut{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 20px;background:#fff;border:1px solid #dce3ef;border-radius:13px}
+.app-shell .dashboard-dev-shortcut>div{display:grid;gap:5px}
+.app-shell .dashboard-dev-shortcut b{font:650 13px Manrope;color:#14213d}
+.app-shell .dashboard-dev-shortcut small{font-size:10px;color:#64748b}
+.app-shell .dashboard-dev-shortcut>a{display:flex;align-items:center;gap:6px;color:#2459d3;font-size:10px;white-space:nowrap}
+@media(max-width:760px){.app-shell .ecosystem-grid{grid-template-columns:1fr}.app-shell .ecosystem-welcome{align-items:flex-start;flex-direction:column;padding:24px}.app-shell .ecosystem-total{width:100%}.app-shell .dashboard-dev-shortcut{align-items:flex-start;flex-direction:column}}
