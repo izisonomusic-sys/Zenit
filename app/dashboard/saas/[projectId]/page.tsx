@@ -33,7 +33,7 @@ export default async function SaaSDetailPage({params,searchParams}:{params:Promi
  const snapshotLabels=[
   ["businesses_count","Entreprises"],["clients_count","Clients"],["projects_count","Chantiers"],
   ["quotes_count","Devis"],["invoices_count","Factures"],["payments_count","Paiements"],
-  ["expenses_count","Dépenses"],["products_count","Produits"],["suppliers_count","Fournisseurs"],
+  ["expenses_count","Dépenses"],["products_count","Articles catalogue"],["suppliers_count","Fournisseurs"],
   ["purchases_count","Achats"],["documents_count","Documents"]
  ] as const;
  return <main className="dashboard-main module-main">
