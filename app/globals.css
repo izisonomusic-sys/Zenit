@@ -160,3 +160,31 @@
 .chariow-currency-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0 20px;}.chariow-currency-grid article{padding:15px;background:#111319;border:1px solid var(--line);}.chariow-currency-grid article>span{display:inline-block;margin-bottom:12px;padding:5px 8px;background:#c8f16916;color:var(--lime);font:10px 'DM Mono';}.chariow-currency-grid article>div{display:grid;gap:4px;margin-top:9px;}.chariow-currency-grid small{font-size:9px;color:#85828f;}.chariow-currency-grid b{font:600 13px Manrope;}
 .chariow-sale-amount{display:grid;gap:4px;text-align:right;}.chariow-sale-amount b{font:600 11px Manrope;}.chariow-sale-amount small{font-size:9px;color:#8d8a97;}
 @media(max-width:700px){.chariow-connect{grid-template-columns:1fr;gap:18px;}.chariow-metrics{grid-template-columns:repeat(2,1fr);}.chariow-heading{align-items:flex-start;flex-wrap:wrap;}.chariow-heading>span:last-child{margin-left:62px;}.chariow-store-line{align-items:flex-start;flex-direction:column;}}
+
+
+/* Chariow connection and sales analytics */
+.chariow-connect-card{border-color:#c8f16955;background:linear-gradient(120deg,#1b1d26,#171820)}
+.chariow-connect-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.chariow-connect-head h2{margin:12px 0 8px}
+.chariow-mark{width:48px;height:48px;display:grid;place-items:center;flex:0 0 auto;border:1px solid #c8f16966;border-radius:13px;background:#c8f16918;color:var(--lime);font:800 24px Manrope}
+.chariow-key-form{margin-top:20px;grid-template-columns:minmax(0,1fr) auto;align-items:end}
+.chariow-key-form label:first-child{grid-column:auto}
+.chariow-key-form button{white-space:nowrap}
+.chariow-help{margin:18px 0 0;color:#8f8c99;font-size:10px;line-height:1.7}
+.chariow-help a{color:var(--lime);text-decoration:underline;text-underline-offset:3px}
+.chariow-connected{margin-top:18px}
+.chariow-sync-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:14px;color:#92909d;font-size:10px}
+.chariow-sync-row form{flex:0 0 auto}
+.chariow-analytics{margin-top:35px}
+.chariow-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sales-table-wrap{overflow-x:auto;border:1px solid var(--line)}
+.sales-table{width:100%;border-collapse:collapse;min-width:650px}
+.sales-table th,.sales-table td{padding:13px 14px;text-align:left;border-bottom:1px solid #ffffff10;font-size:10px;white-space:nowrap}
+.sales-table th{font:9px 'DM Mono';letter-spacing:.1em;color:#92909d;background:#ffffff06}
+.sales-table td{color:#d8d6df}
+.sales-table td:first-child{display:grid;gap:4px}
+.sales-table td b{font-size:10px;color:#f4f2f7}
+.sales-table td small{font:8px 'DM Mono';color:#777582}
+.sales-table tr:last-child td{border-bottom:0}
+@media(max-width:700px){.chariow-key-form{grid-template-columns:1fr}.chariow-key-form label:first-child{grid-column:auto}.chariow-key-form button{width:100%}.chariow-sync-row{align-items:flex-start;flex-direction:column}.chariow-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.chariow-metrics{grid-template-columns:1fr 1fr}.chariow-connect-head h2{font-size:18px}}
