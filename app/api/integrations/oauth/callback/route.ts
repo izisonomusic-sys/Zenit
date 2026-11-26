@@ -22,7 +22,9 @@ export async function GET(request:NextRequest){
  if(stateError||!state?.workspace_id||state.user_id!==user.id)return fail("invalid_or_expired_state");
  const creds=credentials(provider);
  if(!creds.id||!creds.secret)return fail("provider_not_configured");
- const redirectUri=new URL("/api/integrations/oauth/callback",request.url).toString();
+ try{
+ const siteUrl=(process.env.NEXT_PUBLIC_SITE_URL||new URL(request.url).origin).replace(/\\/$/,"");
+ const redirectUri=siteUrl+"/api/integrations/oauth/callback";
  let tokenData:any;
  if(provider==="ga4"||provider==="youtube"||provider==="google_ads"||provider==="linkedin"){
   const tokenUrl=provider==="ga4"||provider==="youtube"||provider==="google_ads"?"https://oauth2.googleapis.com/token":"https://www.linkedin.com/oauth/v2/accessToken";
@@ -52,4 +54,5 @@ export async function GET(request:NextRequest){
  const {error:saveError}=await supabase.rpc("zenit_save_oauth_connection",{p_workspace_id:state.workspace_id,p_provider:provider,p_display_name:displayName,p_external_account_id:externalId,p_scopes:scopes,p_token_payload:payload});
  if(saveError)return fail("token_storage_failed");
  return NextResponse.redirect(new URL("/dashboard/integrations?oauth=success&provider="+provider,request.url));
+ }catch{return fail("provider_error");}
 }
