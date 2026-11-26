@@ -446,3 +446,9 @@
 .app-shell .integration-add:hover{background:#f6edd9}
 .app-shell .integration-add:disabled{opacity:.58;cursor:not-allowed}
 .app-shell .digital-platform-link{margin-top:0}
+
+.app-shell .store-connect-grid>article{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:18px;border-radius:13px}
+.app-shell .store-platform-top{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.app-shell .store-connect-grid>article>b{color:#14213d;font:700 14px Manrope}
+.app-shell .store-connect-grid>article>small{color:#64748b;font-size:10px;line-height:1.6;min-height:30px}
+.app-shell .store-connect-grid>article>.button,.app-shell .store-connect-grid>article>.integration-add{margin-top:auto}
