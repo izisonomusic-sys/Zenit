@@ -1,28 +1,65 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowUpRight, Cable, Check, CircleHelp, Code2, ExternalLink, Search, ShieldCheck, ShoppingBag, BarChart3, Globe2 } from "lucide-react";
+import { ArrowUpRight, Cable, Check, CircleHelp, Search, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { addDataSource } from "./actions";
 export const dynamic="force-dynamic";
-const groups=[
- {id:"commerce",title:"Commerce & ventes",description:"Centralisez les commandes, le chiffre d’affaires et les statuts de vente.",apps:[["shopify","Shopify","Boutique e-commerce","shopify","#95bf47"],["woocommerce","WooCommerce","Boutique WordPress","woocommerce","#96588a"],["stripe","Stripe","Paiements et revenus","stripe","#635bff"]]},
- {id:"digital",title:"Produits numériques & formations",description:"Importez les ventes de vos ebooks, cours, licences et contenus digitaux.",apps:[["chariow","Chariow","API ventes, produits et règlements","chariow","#c8f169"]]},
- {id:"social",title:"Réseaux sociaux",description:"Préparez la connexion des comptes pour suivre vues, portée et engagement.",apps:[["instagram","Instagram","Reels, portée et interactions","instagram","#e4405f"],["facebook","Facebook","Pages, portée et engagement","facebook","#1877f2"],["tiktok","TikTok","Vues et performances vidéo","tiktok","#ffffff"],["youtube","YouTube","Vues, abonnés et revenus éligibles","youtube","#ff0033"],["linkedin","LinkedIn","Pages et performances de publications","linkedin","#0a66c2"],["x","X","Impressions et interactions","x","#ffffff"]]},
- {id:"analytics",title:"Mesure & publicité",description:"Analysez le trafic et les performances de vos campagnes.",apps:[["ga4","Google Analytics 4","Trafic et conversions","googleanalytics","#e9ab27"],["meta_ads","Meta Ads","Résultats publicitaires","meta","#1877f2"],["google_ads","Google Ads","Campagnes et conversions","googleads","#34a853"]]},
- {id:"developer",title:"Développeurs & données",description:"Envoyez des événements depuis votre site, votre application ou votre serveur.",apps:[["sdk","ZENIT SDK","Événements JavaScript","zenit","#c8f169"],["rest_api","API REST","Événements serveur à serveur","api","#647bff"],["webhook","Webhooks","Réception d’événements externes","webhook","#a6a4b1"]]}
+type AppItem=[string,string,string,string,string];
+const groups:{id:string;title:string;description:string;apps:AppItem[]}[]=[
+ {id:"commerce",title:"Commerce & ventes",description:"Centralisez les commandes, le chiffre d’affaires et les statuts de vente.",apps:[
+  ["shopify","Shopify","Boutique e-commerce","shopify","#95bf47"],["woocommerce","WooCommerce","Boutique WordPress","woocommerce","#96588a"],["stripe","Stripe","Paiements et revenus","stripe","#635bff"]
+ ]},
+ {id:"digital",title:"Produits numériques & formations",description:"Importez les ventes de vos ebooks, cours, licences et contenus digitaux.",apps:[
+  ["chariow","Chariow","API ventes, produits et règlements","chariow","#c8f169"]
+ ]},
+ {id:"social",title:"Réseaux sociaux",description:"Préparez la connexion des comptes pour suivre vues, portée et engagement.",apps:[
+  ["instagram","Instagram","Reels, portée et interactions","instagram","#e4405f"],["facebook","Facebook","Pages, portée et engagement","facebook","#1877f2"],["tiktok","TikTok","Vues et performances vidéo","tiktok","#ffffff"],["youtube","YouTube","Vues, abonnés et revenus éligibles","youtube","#ff0033"],["linkedin","LinkedIn","Pages et performances de publications","linkedin","#0a66c2"],["x","X","Impressions et interactions","x","#ffffff"]
+ ]},
+ {id:"analytics",title:"Mesure & publicité",description:"Analysez le trafic et les performances de vos campagnes.",apps:[
+  ["ga4","Google Analytics 4","Trafic et conversions","googleanalytics","#e9ab27"],["meta_ads","Meta Ads","Résultats publicitaires","meta","#1877f2"],["google_ads","Google Ads","Campagnes et conversions","googleads","#34a853"]
+ ]},
+ {id:"developer",title:"Développeurs & données",description:"Envoyez des événements depuis votre site, votre application ou votre serveur.",apps:[
+  ["sdk","ZENIT SDK","Événements JavaScript","zenit","#c8f169"],["rest_api","API REST","Événements serveur à serveur","api","#647bff"],["webhook","Webhooks","Réception d’événements externes","webhook","#a6a4b1"]
+ ]}
 ];
-const logos:Record<string,string>={shopify:"https://cdn.simpleicons.org/shopify/95BF47",woocommerce:"https://cdn.simpleicons.org/woocommerce/96588A",stripe:"https://cdn.simpleicons.org/stripe/635BFF",instagram:"https://cdn.simpleicons.org/instagram/E4405F",facebook:"https://cdn.simpleicons.org/facebook/1877F2",tiktok:"https://cdn.simpleicons.org/tiktok/FFFFFF",youtube:"https://cdn.simpleicons.org/youtube/FF0033",linkedin:"https://cdn.simpleicons.org/linkedin/0A66C2",x:"https://cdn.simpleicons.org/x/FFFFFF",ga4:"https://cdn.simpleicons.org/googleanalytics/E9AB27",meta_ads:"https://cdn.simpleicons.org/meta/1877F2",google_ads:"https://cdn.simpleicons.org/googleads/34A853"};
+const logos:Record<string,string>={
+ shopify:"https://cdn.simpleicons.org/shopify/95BF47",woocommerce:"https://cdn.simpleicons.org/woocommerce/96588A",stripe:"https://cdn.simpleicons.org/stripe/635BFF",
+ instagram:"https://cdn.simpleicons.org/instagram/E4405F",facebook:"https://cdn.simpleicons.org/facebook/1877F2",tiktok:"https://cdn.simpleicons.org/tiktok/FFFFFF",youtube:"https://cdn.simpleicons.org/youtube/FF0033",linkedin:"https://cdn.simpleicons.org/linkedin/0A66C2",x:"https://cdn.simpleicons.org/x/FFFFFF",
+ ga4:"https://cdn.simpleicons.org/googleanalytics/E9AB27",meta_ads:"https://cdn.simpleicons.org/meta/1877F2",google_ads:"https://cdn.simpleicons.org/googleads/34A853"
+};
 export default async function IntegrationsPage({searchParams}:{searchParams:Promise<{added?:string;error?:string;exists?:string}>}){
  const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
  const{data:memberships}=await supabase.from("workspace_members").select("workspace_id").eq("user_id",user.id).limit(1);const workspaceId=memberships?.[0]?.workspace_id;if(!workspaceId)redirect("/dashboard");
- const{data:sources}=await supabase.from("data_sources").select("id,name,source,status,config,created_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false});const params=await searchParams;
- const connected=new Set((sources||[]).map(s=>String((s.config as any)?.provider||s.source)));
- return <main className="dashboard-main module-main"><Link href="/dashboard" className="module-back">← Tableau de bord</Link><header className="dashboard-header"><div><div className="eyebrow">ZENIT / ÉCOSYSTÈME D’APPLICATIONS</div><h1>Intégrations.</h1><p>Retrouvez vos plateformes et préparez leur connexion à votre espace de données.</p></div><span className="status-pill">{sources?.length??0} source(s) enregistrée(s)</span></header>
- {params.added&&<div className="success-banner">{params.added} a été ajouté à votre espace. La connexion des autorisations est l’étape suivante.</div>}{params.exists&&<div className="success-banner">Cette application est déjà enregistrée dans votre espace.</div>}{params.error&&<div className="form-message">Impossible d’ajouter cette application. Réessayez.</div>}
- <section className="integration-intro"><div><span className="eyebrow">UN SEUL ESPACE. VOS OUTILS.</span><h2>Connectez les applications<br/><em>que vous utilisez déjà.</em></h2><p>Choisissez une plateforme. ZENIT enregistre la source et vous indique les autorisations nécessaires avant toute collecte de données.</p></div><div className="integration-intro-badge"><ShieldCheck size={25}/><b>Vos comptes restent<br/>sous votre contrôle</b><small>Autorisation requise pour les données privées</small></div></section>
- <div className="integration-filter"><div><Search size={16}/><span>Catalogue des applications</span></div><span>{groups.reduce((n,g)=>n+g.apps.length,0)} applications disponibles</span></div>
- {groups.map(group=><section className="integration-group" key={group.id}><div className="integration-group-heading"><div><h2>{group.title}</h2><p>{group.description}</p></div></div><div className="integration-grid">{group.apps.map(([id,name,description,slug,color])=>{const added=connected.has(id)||sources?.some(s=>s.name===name);return <article className="integration-card" key={id}><div className="integration-card-top"><span className="integration-logo" style={{backgroundColor:color+"18",borderColor:color+"55"}}>{logos[id]?<img src={logos[id]} alt="" loading="lazy"/>:<span style={{color}}>{id==="sdk"?"Z":id==="rest_api"?"API":id==="chariow"?"C":"↗"}</span>}</span><span className={added?"integration-state is-added":"integration-state"}>{added?"Ajoutée":"Disponible"}</span></div><h3>{name}</h3><p>{description}</p>{id==="chariow"?<Link className="integration-add" href="/dashboard/produits-numeriques">{added?"Gérer Chariow":"Connecter Chariow"} <ArrowUpRight size={14}/></Link>:<form action={addDataSource}><input type="hidden" name="provider" value={id}/><button className={added?"integration-add is-added":"integration-add"} disabled={added}>{added?<><Check size={14}/> Ajoutée</>:<>Ajouter à mon espace <ArrowUpRight size={14}/></>}</button></form>}</article>})}</div></section>)}
- <section className="integration-note"><CircleHelp size={19}/><div><b>Ajouter une application ne suffit pas à récupérer ses statistiques.</b><p>Les données privées nécessitent une autorisation officielle (OAuth), une clé API ou l’installation du SDK ZENIT. Le statut « Ajoutée » signifie que la source est enregistrée, pas que les données sont déjà synchronisées.</p></div></section>
- <section className="module-list"><div className="workspace-list-head"><div><h2>Sources de données de votre espace</h2><p>État actuel des connexions enregistrées.</p></div></div>{sources?.length?sources.map(s=><article className="workspace-row" key={s.id}><div className="workspace-symbol"><Cable size={18}/></div><div><b>{s.name}</b><small>{s.source.toUpperCase()}</small></div><span className={s.status==="connected"?"workspace-ready":"integration-pending"}>{s.status==="connected"?"Connectée · synchronisée":"Autorisation à configurer"}</span></article>):<div className="module-empty"><Cable size={25}/><b>Aucune application ajoutée</b><span>Choisissez une application dans le catalogue ci-dessus.</span></div>}</section>
+ const{data:sources}=await supabase.from("data_sources").select("id,name,source,status,config,created_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false});
+ const params=await searchParams;const connected=new Set((sources||[]).map(source=>String((source.config as any)?.provider||source.source)));
+ const appCount=groups.reduce((count,group)=>count+group.apps.length,0);
+ return <main className="dashboard-main module-main">
+  <Link href="/dashboard" className="module-back">← Tableau de bord</Link>
+  <header className="dashboard-header"><div><div className="eyebrow">ZENIT / ÉCOSYSTÈME D’APPLICATIONS</div><h1>Intégrations.</h1><p>Retrouvez vos plateformes et connectez-les à votre espace de données.</p></div><span className="status-pill">{sources?.length??0} source(s) enregistrée(s)</span></header>
+  {params.added&&<div className="success-banner">{params.added} a été ajouté à votre espace. Configurez maintenant son autorisation.</div>}
+  {params.exists&&<div className="success-banner">Cette application est déjà enregistrée dans votre espace.</div>}
+  {params.error&&<div className="form-message">Impossible d’ajouter cette application. Réessayez.</div>}
+  <section className="integration-intro"><div><span className="eyebrow">UN SEUL ESPACE. VOS OUTILS.</span><h2>Connectez les applications<br/><em>que vous utilisez déjà.</em></h2><p>Choisissez une plateforme. ZENIT vous guide ensuite vers l’autorisation adaptée avant toute collecte de données.</p></div><div className="integration-intro-badge"><ShieldCheck size={25}/><b>Vos comptes restent<br/>sous votre contrôle</b><small>Accès privé autorisé par le propriétaire</small></div></section>
+  <div className="integration-filter"><div><Search size={16}/><span>Catalogue des applications</span></div><span>{appCount} applications disponibles</span></div>
+  {groups.map(group=><section className="integration-group" key={group.id}>
+   <div className="integration-group-heading"><div><h2>{group.title}</h2><p>{group.description}</p></div></div>
+   <div className="integration-grid">
+    {group.apps.map(([id,name,description,slug,color])=>{
+     const added=connected.has(id)||(sources||[]).some(source=>source.name===name);
+     return <article className="integration-card" key={id}>
+      <div className="integration-card-top"><span className="integration-logo" style={{backgroundColor:color+"18",borderColor:color+"55"}}>
+       {logos[id]?<img src={logos[id]} alt="" loading="lazy"/>:<span style={{color}}>{id==="sdk"?"Z":id==="rest_api"?"API":id==="chariow"?"C":"↗"}</span>}
+      </span><span className={added?"integration-state is-added":"integration-state"}>{added?"Ajoutée":"Disponible"}</span></div>
+      <h3>{name}</h3><p>{description}</p>
+      {id==="chariow"?<Link className="integration-add" href="/dashboard/produits-numeriques">{added?"Gérer Chariow":"Connecter Chariow"} <ArrowUpRight size={14}/></Link>:
+       <form action={addDataSource}><input type="hidden" name="provider" value={id}/><button className={added?"integration-add is-added":"integration-add"} disabled={added}>{added?<><Check size={14}/> Ajoutée</>:<>Ajouter à mon espace <ArrowUpRight size={14}/></>}</button></form>}
+     </article>;
+    })}
+   </div>
+  </section>)}
+  <section className="integration-note"><CircleHelp size={19}/><div><b>Une application enregistrée n’est pas forcément déjà synchronisée.</b><p>Les données privées nécessitent une autorisation officielle (OAuth), une clé API ou l’installation du SDK ZENIT. Les indicateurs ne s’affichent qu’après réception des données.</p></div></section>
+  <section className="module-list"><div className="workspace-list-head"><div><h2>Sources de données de votre espace</h2><p>État actuel des connexions enregistrées.</p></div></div>
+   {sources?.length?sources.map(source=><article className="workspace-row" key={source.id}><div className="workspace-symbol"><Cable size={18}/></div><div><b>{source.name}</b><small>{source.source.toUpperCase()}</small></div><span className={source.status==="connected"?"workspace-ready":"integration-pending"}>{source.status==="connected"?"Connectée":"Autorisation à configurer"}</span></article>):<div className="module-empty"><Cable size={25}/><b>Aucune application ajoutée</b><span>Choisissez une application dans le catalogue ci-dessus.</span></div>}
+  </section>
  </main>;
 }
