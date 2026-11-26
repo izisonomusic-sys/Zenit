@@ -2,8 +2,8 @@ import {NextRequest,NextResponse} from "next/server";
 import {createHash} from "node:crypto";
 import {createClient} from "@/lib/supabase/server";
 
-const label:Record<string,string>={ga4:"Google Analytics 4",youtube:"YouTube",instagram:"Instagram",facebook:"Facebook",meta_ads:"Meta Ads",tiktok:"TikTok",linkedin:"LinkedIn"};
-function credentials(provider:string){return provider==="ga4"||provider==="youtube"?{id:process.env.GOOGLE_CLIENT_ID,secret:process.env.GOOGLE_CLIENT_SECRET}:provider==="instagram"||provider==="facebook"||provider==="meta_ads"?{id:process.env.META_APP_ID,secret:process.env.META_APP_SECRET}:provider==="tiktok"?{id:process.env.TIKTOK_CLIENT_KEY,secret:process.env.TIKTOK_CLIENT_SECRET}:{id:process.env.LINKEDIN_CLIENT_ID,secret:process.env.LINKEDIN_CLIENT_SECRET};}
+const label:Record<string,string>={ga4:"Google Analytics 4",google_ads:"Google Ads",youtube:"YouTube",instagram:"Instagram",facebook:"Facebook",meta_ads:"Meta Ads",tiktok:"TikTok",linkedin:"LinkedIn"};
+function credentials(provider:string){return provider==="ga4"||provider==="youtube"||provider==="google_ads"?{id:process.env.GOOGLE_CLIENT_ID,secret:process.env.GOOGLE_CLIENT_SECRET}:provider==="instagram"||provider==="facebook"||provider==="meta_ads"?{id:process.env.META_APP_ID,secret:process.env.META_APP_SECRET}:provider==="tiktok"?{id:process.env.TIKTOK_CLIENT_KEY,secret:process.env.TIKTOK_CLIENT_SECRET}:{id:process.env.LINKEDIN_CLIENT_ID,secret:process.env.LINKEDIN_CLIENT_SECRET};}
 async function readJson(response:Response){const data=await response.json().catch(()=>({}));if(!response.ok||data.error||data.error_description)throw new Error(String(data.error_description||data.error?.message||data.error||"OAuth token exchange failed"));return data;}
 export async function GET(request:NextRequest){
  const providerState=request.nextUrl.searchParams.get("state")||"";
@@ -25,7 +25,7 @@ export async function GET(request:NextRequest){
  const redirectUri=new URL("/api/integrations/oauth/callback",request.url).toString();
  let tokenData:any;
  if(provider==="ga4"||provider==="youtube"||provider==="linkedin"){
-  const tokenUrl=provider==="ga4"||provider==="youtube"?"https://oauth2.googleapis.com/token":"https://www.linkedin.com/oauth/v2/accessToken";
+  const tokenUrl=provider==="ga4"||provider==="youtube"||provider==="google_ads"?"https://oauth2.googleapis.com/token":"https://www.linkedin.com/oauth/v2/accessToken";
   const body=new URLSearchParams({grant_type:"authorization_code",code,client_id:creds.id,client_secret:creds.secret,redirect_uri:redirectUri});
   tokenData=await readJson(await fetch(tokenUrl,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body}));
  }else if(provider==="tiktok"){
@@ -41,7 +41,7 @@ export async function GET(request:NextRequest){
  if(!accessToken)return fail("token_missing");
  let profile:any={};
  try{
-  const profileUrl=provider==="ga4"||provider==="youtube"?"https://www.googleapis.com/oauth2/v2/userinfo":provider==="instagram"||provider==="facebook"||provider==="meta_ads"?"https://graph.facebook.com/v27.0/me?fields=id,name":provider==="tiktok"?"https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name":"https://api.linkedin.com/v2/userinfo";
+  const profileUrl=provider==="ga4"||provider==="youtube"||provider==="google_ads"?"https://www.googleapis.com/oauth2/v2/userinfo":provider==="instagram"||provider==="facebook"||provider==="meta_ads"?"https://graph.facebook.com/v27.0/me?fields=id,name":provider==="tiktok"?"https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name":"https://api.linkedin.com/v2/userinfo";
   const profileResponse=await fetch(profileUrl,{headers:{Authorization:"Bearer "+accessToken}});
   if(profileResponse.ok)profile=await profileResponse.json();
  }catch{}
