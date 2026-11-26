@@ -1,0 +1,8 @@
+"use server";
+import {redirect} from "next/navigation";import {createClient} from "@/lib/supabase/server";
+export async function addDigitalProduct(formData:FormData){
+ const name=String(formData.get("name")||"").trim();const url=String(formData.get("url")||"").trim();if(name.length<2)redirect("/dashboard/produits-numeriques?error=name");try{const u=new URL(url);if(!["http:","https:"].includes(u.protocol))throw new Error();}catch{redirect("/dashboard/produits-numeriques?error=url");}
+ const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");const{data:m}=await supabase.from("workspace_members").select("workspace_id").eq("user_id",user.id).limit(1);const workspaceId=m?.[0]?.workspace_id;if(!workspaceId)redirect("/dashboard");
+ const{data:project,error}=await supabase.from("tracked_projects").insert({workspace_id:workspaceId,name,platform:"other",website_url:url,created_by:user.id}).select("id").single();if(error||!project)redirect("/dashboard/produits-numeriques?error=save");
+ const{error:sourceError}=await supabase.from("data_sources").insert({workspace_id:workspaceId,project_id:project.id,name,source:"other",status:"pending",config:{provider:"digital_product",product_url:url,connection_state:"awaiting_events",note:"Sales and downloads require platform API/webhooks or server-side event tracking."},created_by:user.id});if(sourceError)redirect("/dashboard/produits-numeriques?error=source");redirect("/dashboard/produits-numeriques?added=1");
+}
