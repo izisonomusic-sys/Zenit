@@ -244,3 +244,22 @@
 .sdk-api-details details{border-top:1px solid var(--border,#29313d);padding-top:12px}
 .sdk-api-details summary{cursor:pointer;font-weight:600;font-size:13px}
 @media(max-width:700px){.sdk-key-type-grid{grid-template-columns:1fr}.sdk-create-row{align-items:stretch;flex-direction:column}}
+
+/* ZENIT integration sync and API health */
+.integration-sync-panel{margin:22px 0 28px;padding:22px;border:1px solid var(--border,#29313d);border-radius:18px;background:var(--surface,rgba(255,255,255,.02))}
+.integration-sync-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.integration-sync-heading h2{display:flex;align-items:center;gap:8px;margin:7px 0 0;font-size:19px}
+.integration-sync-frequency{display:flex;align-items:center;gap:6px;color:var(--muted,#9aa4b2);font-size:12px}
+.integration-sync-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--border,#29313d)}
+.integration-sync-row>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.integration-sync-row small{color:var(--muted,#9aa4b2);font-size:11px;overflow-wrap:anywhere}
+.integration-sync-error{color:#ff9b9b!important}
+.integration-sync-status{display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:11px;color:var(--muted,#9aa4b2)}
+.integration-sync-status.ok{color:#a7e7a8}.integration-sync-status.error{color:#ff9b9b}
+.integration-sync-warning{display:flex;align-items:flex-start;gap:8px;margin:14px 0 0;color:#e9c77d;font-size:12px;line-height:1.5}
+.developer-health-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+.developer-health-grid>div{padding:14px;border:1px solid var(--border,#29313d);border-radius:12px;display:flex;flex-direction:column;gap:5px}
+.developer-health-grid b{font-size:22px}.developer-health-grid small{font-size:11px;color:var(--muted,#9aa4b2)}
+.developer-alerts{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.developer-alerts p{display:flex;align-items:flex-start;gap:8px;margin:0;padding:10px 12px;border-radius:10px;background:rgba(235,175,65,.08);color:#e9c77d;font-size:12px;line-height:1.5}
+@media(max-width:650px){.integration-sync-heading,.integration-sync-row{align-items:flex-start;flex-direction:column}.developer-health-grid{grid-template-columns:1fr 1fr}}
