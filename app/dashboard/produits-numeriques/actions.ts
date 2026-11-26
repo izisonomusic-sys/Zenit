@@ -31,11 +31,11 @@ export async function connectChariow(formData:FormData){
 }
 
 export async function syncChariow(formData:FormData){
- const connectionId=String(formData.get("connection_id")||"");if(!connectionId)redirect("/dashboard/produits-numeriques?sync_error=connection");
+ const connectionId=String(formData.get("connection_id")||"");if(!connectionId)redirect("/dashboard/boutiques?sync_error=connection");
  const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
  const{data:memberships}=await supabase.from("workspace_members").select("workspace_id,role").eq("user_id",user.id).limit(1);const membership=memberships?.[0];if(!membership)redirect("/dashboard");
- if(!["owner","admin"].includes(membership.role))redirect("/dashboard/produits-numeriques?sync_error=permission");
- const{data:apiKey,error:keyError}=await supabase.rpc("zenit_get_chariow_secret",{p_connection_id:connectionId});if(keyError||!apiKey)redirect("/dashboard/produits-numeriques?sync_error=secret");
+ if(!["owner","admin"].includes(membership.role))redirect("/dashboard/boutiques?sync_error=permission");
+ const{data:apiKey,error:keyError}=await supabase.rpc("zenit_get_chariow_secret",{p_connection_id:connectionId});if(keyError||!apiKey)redirect("/dashboard/boutiques?sync_error=secret");
  let cursor:string|null=null;let imported=0;let pages=0;
  try{
   do{
@@ -54,9 +54,9 @@ export async function syncChariow(formData:FormData){
    if(rows.length){const{error}=await supabase.from("commerce_sales").upsert(rows,{onConflict:"connection_id,external_sale_id"});if(error)throw new Error("Sales save failed");imported+=rows.length;}
    pages+=1;const pagination=result?.pagination??data?.pagination;cursor=pagination?.next_cursor??null;
   }while(cursor&&pages<20);
- }catch{redirect("/dashboard/produits-numeriques?sync_error=failed");}
+ }catch{redirect("/dashboard/boutiques?sync_error=failed");}
  const syncedAt=new Date().toISOString();
  await supabase.from("integration_connections").update({last_synced_at:syncedAt}).eq("id",connectionId);
  await supabase.from("data_sources").update({last_synced_at:syncedAt,status:"connected"}).eq("workspace_id",membership.workspace_id).contains("config",{connection_id:connectionId});
- redirect("/dashboard/produits-numeriques?synced="+imported);
+ redirect("/dashboard/boutiques?synced="+imported);
 }
