@@ -9,10 +9,10 @@ export default async function SaaSDetailPage({params,searchParams}:{params:Promi
  const {projectId}=await params;const query=await searchParams;
  const supabase=await createClient();
  const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("user_id",user.id).limit(1).maybeSingle();
- if(!membership)redirect("/dashboard");
- const {data:project}=await supabase.from("tracked_projects").select("id,name,platform,website_url,is_active").eq("id",projectId).eq("workspace_id",membership.workspace_id).maybeSingle();
+ const {data:project}=await supabase.from("tracked_projects").select("id,name,platform,website_url,is_active,workspace_id").eq("id",projectId).maybeSingle();
  if(!project)notFound();
+ const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).maybeSingle();
+ if(!membership)notFound();
  const {data:keys}=await supabase.from("api_keys").select("id,label,key_prefix,last_used_at,revoked_at,created_at").eq("project_id",projectId).order("created_at",{ascending:false});
  const endpoint=process.env.NEXT_PUBLIC_SITE_URL||"https://zenit-unv7.onrender.com";
  return <main className="dashboard-main module-main">
