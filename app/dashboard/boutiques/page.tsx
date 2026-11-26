@@ -16,7 +16,6 @@ export default async function BoutiquesPage({searchParams}:{searchParams:Promise
  ]);
  const sources=sourcesResult.data||[];const connections=connectionsResult.data||[];const stores=storesResult.data||[];const paramsValue=await params;
  const connectedIds=new Set<string>();for(const x of sources)if(x.project_id&&x.status==="connected")connectedIds.add(x.project_id);for(const x of connections)if(x.project_id&&x.status==="connected")connectedIds.add(x.project_id);
- const providerConnected=new Set(connections.filter(x=>x.status==="connected").map(x=>x.provider));
  return <main className="dashboard-main module-main">
   <Link href="/dashboard" className="module-back">← Tableau de bord</Link>
   <header className="dashboard-header"><div><div className="eyebrow">ZENIT / COMMERCE</div><h1>Mes boutiques.</h1><p>Vos boutiques e-commerce, leur statut de connexion et leurs performances.</p></div><span className="status-pill">{stores.filter(s=>s.is_active&&connectedIds.has(s.id)).length+connections.filter(c=>c.status==="connected"&&!c.project_id).length} connectée(s)</span></header>
