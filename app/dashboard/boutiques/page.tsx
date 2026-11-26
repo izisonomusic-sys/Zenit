@@ -1,12 +1,56 @@
-import Link from "next/link";import {redirect} from "next/navigation";import {ArrowUpRight,Store,ShoppingBag,PackageCheck,PlugZap} from "lucide-react";import {createClient} from "@/lib/supabase/server";import {importStore} from "./actions";
-export const dynamic="force-dynamic";
-export default async function BoutiquesPage({searchParams}:{searchParams:Promise<{imported?:string;error?:string}>}){
- const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");const{data:m}=await supabase.from("workspace_members").select("workspace_id").eq("user_id",user.id).limit(1);const workspaceId=m?.[0]?.workspace_id;if(!workspaceId)redirect("/dashboard");
- const{data:stores}=await supabase.from("tracked_projects").select("id,name,website_url,created_at").eq("workspace_id",workspaceId).eq("platform","ecommerce").order("created_at",{ascending:false});const params=await searchParams;
- return <main className="dashboard-main module-main"><Link href="/dashboard" className="module-back">← Tableau de bord</Link><header className="dashboard-header"><div><div className="eyebrow">ZENIT / COMMERCE</div><h1>Mes boutiques.</h1><p>Importez vos boutiques et préparez la synchronisation de vos ventes.</p></div><span className="status-pill">{stores?.length??0} boutique(s)</span></header>
- {params.imported&&<div className="success-banner">Boutique enregistrée. L’autorisation de la plateforme reste à effectuer pour importer les commandes.</div>}{params.error&&<div className="form-message">Import impossible : vérifiez le nom, l’URL et réessayez.</div>}
- <section className="store-connect-grid"><article><span className="store-brand shopify">S</span><b>Shopify</b><small>Commandes, produits, remboursements et chiffre d’affaires via autorisation Shopify.</small></article><article><span className="store-brand woo">W</span><b>WooCommerce</b><small>Commandes, clients, produits et revenus via clés REST WooCommerce.</small></article><article><span className="store-brand custom">↗</span><b>Boutique personnalisée</b><small>Connexion via API, webhook ou événements envoyés par votre serveur.</small></article></section>
- <section className="module-form-card"><div className="eyebrow">IMPORTER UNE BOUTIQUE</div><h2>Ajouter votre boutique</h2><p className="module-description">Renseignez son adresse et sa plateforme. ZENIT enregistre la boutique, puis la connexion officielle permettra de lire les données autorisées.</p><form action={importStore} className="module-form"><label>Nom de la boutique<input name="name" required minLength={2} placeholder="Ex. Ma boutique"/></label><label>Plateforme<select name="provider" defaultValue="shopify"><option value="shopify">Shopify</option><option value="woocommerce">WooCommerce</option><option value="other">Autre / API personnalisée</option></select></label><label>URL de la boutique<input name="url" type="url" required placeholder="https://ma-boutique.com"/></label><button className="button">Importer la boutique <ArrowUpRight size={15}/></button></form></section>
- <section className="module-list"><div className="workspace-list-head"><div><h2>Boutiques enregistrées</h2><p>Suivi des boutiques de votre espace.</p></div></div>{stores?.length?stores.map(s=><article className="workspace-row" key={s.id}><div className="workspace-symbol"><ShoppingBag size={19}/></div><div><b>{s.name}</b><small>{s.website_url}</small></div><span className="integration-pending">Connexion à autoriser</span></article>):<div className="module-empty"><Store size={25}/><b>Aucune boutique importée</b><span>Ajoutez Shopify, WooCommerce ou une boutique personnalisée.</span></div>}</section>
- <section className="integration-note"><PlugZap size={19}/><div><b>Pourquoi le lien seul ne suffit pas ?</b><p>Les ventes, commandes, remboursements et paiements sont des données privées. Shopify nécessite une autorisation de l’application, WooCommerce des clés REST avec permissions en lecture, et une boutique personnalisée une API ou des webhooks. ZENIT ne doit jamais inventer ces chiffres à partir de la page publique.</p></div></section></main>;
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { ArrowUpRight, Store, ShoppingBag, PlugZap } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { importStore } from "./actions";
+export const dynamic = "force-dynamic";
+const storeTypes = [
+ {key:"shopify",letter:"S",label:"Shopify",detail:"Commandes, produits, remboursements et chiffre d'affaires via autorisation Shopify."},
+ {key:"woo",letter:"W",label:"WooCommerce",detail:"Commandes, clients, produits et revenus via clés REST WooCommerce."},
+ {key:"custom",letter:"↗",label:"Boutique personnalisée",detail:"Connexion via API, webhook ou événements envoyés par votre serveur."}
+];
+export default async function BoutiquesPage({searchParams}:{searchParams:Promise<{imported?:string;error?:string}>}) {
+ const supabase = await createClient();
+ const {data:{user}} = await supabase.auth.getUser();
+ if (!user) redirect("/login");
+ const {data:memberships} = await supabase.from("workspace_members").select("workspace_id").eq("user_id",user.id).limit(1);
+ const workspaceId = memberships?.[0]?.workspace_id;
+ if (!workspaceId) redirect("/dashboard");
+ const {data:stores} = await supabase.from("tracked_projects").select("id,name,website_url,created_at").eq("workspace_id",workspaceId).eq("platform","ecommerce").order("created_at",{ascending:false});
+ const params = await searchParams;
+ return (
+  <main className="dashboard-main module-main">
+   <Link href="/dashboard" className="module-back">← Tableau de bord</Link>
+   <header className="dashboard-header">
+    <div><div className="eyebrow">ZENIT / COMMERCE</div><h1>Mes boutiques.</h1><p>Importez vos boutiques et préparez la synchronisation de vos ventes.</p></div>
+    <span className="status-pill">{stores?.length ?? 0} boutique(s)</span>
+   </header>
+   {params.imported && <div className="success-banner">Boutique enregistrée. L'autorisation de la plateforme reste à effectuer pour importer les commandes.</div>}
+   {params.error && <div className="form-message">Import impossible : vérifiez le nom, l'URL et réessayez.</div>}
+   <section className="store-connect-grid">
+    {storeTypes.map(item => <article key={item.key}>
+     <span className={"store-brand " + item.key}>{item.letter}</span>
+     <b>{item.label}</b>
+     <small>{item.detail}</small>
+    </article>)}
+   </section>
+   <section className="module-form-card">
+    <div className="eyebrow">IMPORTER UNE BOUTIQUE</div><h2>Ajouter votre boutique</h2>
+    <p className="module-description">Renseignez son adresse et sa plateforme. ZENIT enregistre la boutique, puis la connexion officielle permettra de lire les données autorisées.</p>
+    <form action={importStore} className="module-form">
+     <label>Nom de la boutique<input name="name" required minLength={2} placeholder="Ex. Ma boutique"/></label>
+     <label>Plateforme<select name="provider" defaultValue="shopify"><option value="shopify">Shopify</option><option value="woocommerce">WooCommerce</option><option value="other">Autre / API personnalisée</option></select></label>
+     <label>URL de la boutique<input name="url" type="url" required placeholder="https://ma-boutique.com"/></label>
+     <button className="button">Importer la boutique <ArrowUpRight size={15}/></button>
+    </form>
+   </section>
+   <section className="module-list">
+    <div className="workspace-list-head"><div><h2>Boutiques enregistrées</h2><p>Suivi des boutiques de votre espace.</p></div></div>
+    {stores?.length ? stores.map(store => <article className="workspace-row" key={store.id}>
+     <div className="workspace-symbol"><ShoppingBag size={19}/></div><div><b>{store.name}</b><small>{store.website_url}</small></div><span className="integration-pending">Connexion à autoriser</span>
+    </article>) : <div className="module-empty"><Store size={25}/><b>Aucune boutique importée</b><span>Ajoutez Shopify, WooCommerce ou une boutique personnalisée.</span></div>}
+   </section>
+   <section className="integration-note"><PlugZap size={19}/><div><b>Pourquoi le lien seul ne suffit pas ?</b><p>Les ventes, commandes, remboursements et paiements sont des données privées. Shopify nécessite une autorisation de l'application, WooCommerce des clés REST avec permissions en lecture, et une boutique personnalisée une API ou des webhooks. ZENIT ne doit jamais inventer ces chiffres à partir de la page publique.</p></div></section>
+  </main>
+ );
 }
