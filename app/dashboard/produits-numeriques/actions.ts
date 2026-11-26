@@ -179,7 +179,12 @@ export async function syncChariow(formData: FormData) {
         external_customer_id: sale.customer?.id ?? null,
         external_created_at: sale.created_at ?? null,
         external_completed_at: sale.completed_at ?? null,
-        payload: sale
+        payload: {
+          payment_method: sale.payment?.method?.name ?? null,
+          payment_gateway: sale.payment?.gateway ?? null,
+          discount_code: sale.discount?.code ?? null,
+          reconciled: sale.is_reconciled ?? null
+        }
       }));
       if (rows.length) {
         const { error } = await supabase.from("commerce_sales").upsert(rows, { onConflict: "connection_id,external_sale_id" });
