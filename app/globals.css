@@ -188,3 +188,36 @@
 .sales-table tr:last-child td{border-bottom:0}
 @media(max-width:700px){.chariow-key-form{grid-template-columns:1fr}.chariow-key-form label:first-child{grid-column:auto}.chariow-key-form button{width:100%}.chariow-sync-row{align-items:flex-start;flex-direction:column}.chariow-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.chariow-metrics{grid-template-columns:1fr 1fr}.chariow-connect-head h2{font-size:18px}}
+
+
+/* Searchable app directory */
+.app-catalogue{margin:25px 0 35px}
+.catalogue-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;color:#92909d;font:10px 'DM Mono';}
+.catalogue-search{display:flex;align-items:center;gap:10px;flex:1;max-width:560px;height:46px;padding:0 14px;background:#191a21;border:1px solid var(--line);color:#9b98a5}
+.catalogue-search:focus-within{border-color:#c8f16988}
+.catalogue-search input{width:100%;border:0;outline:0;background:transparent;color:#f4f2f7;font:12px Manrope}
+.catalogue-categories{display:flex;gap:8px;overflow-x:auto;padding:18px 0 14px;scrollbar-width:thin}
+.catalogue-categories button{flex:0 0 auto;padding:9px 13px;border:1px solid var(--line);background:#191a21;color:#aaa7b4;font-size:10px;cursor:pointer}
+.catalogue-categories button.active{border-color:#c8f16988;background:#c8f16914;color:var(--lime)}
+.catalogue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.catalogue-card{display:flex;flex-direction:column;min-height:225px;padding:18px;background:linear-gradient(145deg,#1b1c24,#171820);border:1px solid var(--line);transition:transform .2s,border-color .2s}
+.catalogue-card:hover{transform:translateY(-3px);border-color:#ffffff38}
+.catalogue-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.catalogue-logo{width:48px;height:48px;display:grid;place-items:center;border:1px solid;border-radius:13px;font:800 22px Manrope;color:var(--lime)}
+.catalogue-logo img{width:26px;height:26px;object-fit:contain}
+.catalogue-status{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:20px;color:#aaa7b4;font:8px 'DM Mono'}
+.catalogue-status.connected{color:var(--lime);border-color:#c8f16955}
+.catalogue-card-copy{margin:15px 0 18px;flex:1}
+.catalogue-card-copy small{color:#9996a4;font:9px 'DM Mono';text-transform:uppercase;letter-spacing:.09em}
+.catalogue-card-copy h3{margin:7px 0 6px;font:600 16px Manrope;color:#f4f2f7}
+.catalogue-card-copy p{margin:0;color:#9996a4;font-size:10px;line-height:1.6}
+.catalogue-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:13px;border-top:1px solid #ffffff12}
+.catalogue-card-bottom>span{display:flex;align-items:center;gap:5px;color:#85828f;font-size:9px}
+.catalogue-connect{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:104px;height:34px;padding:0 11px;border:1px solid #c8f16966;background:#c8f16912;color:var(--lime);font-size:10px;font-weight:600;cursor:pointer}
+.catalogue-connect:hover{background:#c8f16924}
+.catalogue-connect.connected-button{border-color:var(--line);color:#85828f;background:#ffffff08}
+.catalogue-connect:disabled{cursor:default}
+.catalogue-empty{display:grid;justify-items:center;gap:9px;padding:45px;border:1px dashed var(--line);color:#92909d}
+.catalogue-empty b{color:#f4f2f7;font-size:13px}.catalogue-empty span{font-size:10px}
+@media(max-width:900px){.catalogue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.catalogue-grid{grid-template-columns:1fr}.catalogue-toolbar{align-items:stretch;flex-direction:column}.catalogue-search{max-width:none}.catalogue-card{min-height:205px}}
