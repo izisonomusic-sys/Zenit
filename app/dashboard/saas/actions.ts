@@ -19,10 +19,10 @@ export async function createSdkKey(projectId:string,label:string){
  const supabase=await createClient();
  const {data:{user}}=await supabase.auth.getUser();
  if(!user)return {error:"Votre session a expiré. Reconnectez-vous."};
- const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("user_id",user.id).in("role",["owner","admin"]).limit(1).maybeSingle();
- if(!membership)return {error:"Seul le propriétaire ou un administrateur peut créer une clé SDK."};
- const {data:project}=await supabase.from("tracked_projects").select("id").eq("id",projectId).eq("workspace_id",membership.workspace_id).maybeSingle();
+ const {data:project}=await supabase.from("tracked_projects").select("id,workspace_id").eq("id",projectId).maybeSingle();
  if(!project)return {error:"Ce projet n'appartient pas à votre espace."};
+ const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).in("role",["owner","admin"]).maybeSingle();
+ if(!membership)return {error:"Seul le propriétaire ou un administrateur peut créer une clé SDK."};
  const rawKey="zn_live_"+randomBytes(32).toString("base64url");
  const keyPrefix=rawKey.slice(0,16);
  const keyHash=createHash("sha256").update(rawKey).digest("hex");
@@ -34,10 +34,10 @@ export async function createSdkKey(projectId:string,label:string){
 export async function revokeSdkKey(projectId:string,keyId:string){
  const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();
  if(!user)return {error:"Votre session a expiré."};
- const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("user_id",user.id).in("role",["owner","admin"]).limit(1).maybeSingle();
- if(!membership)return {error:"Droit administrateur requis."};
- const {data:project}=await supabase.from("tracked_projects").select("id").eq("id",projectId).eq("workspace_id",membership.workspace_id).maybeSingle();
+ const {data:project}=await supabase.from("tracked_projects").select("id,workspace_id").eq("id",projectId).maybeSingle();
  if(!project)return {error:"Projet introuvable."};
+ const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).in("role",["owner","admin"]).maybeSingle();
+ if(!membership)return {error:"Droit administrateur requis."};
  const {error}=await supabase.rpc("zenit_revoke_sdk_key",{p_key_id:keyId});
  if(error)return {error:"Impossible de révoquer cette clé."};
  return {success:true};
