@@ -8,6 +8,7 @@
   var anonymousId=sessionValue("zenit_anonymous_id",false);
   var sessionId=sessionValue("zenit_session_id",true);
   var userId=null;
+  try{userId=window.sessionStorage.getItem("zenit_user_id");}catch(e){}
   var queue=[];
   var sending=false;
   function sessionValue(name,session){
@@ -32,8 +33,23 @@
   }
   window.zenit=window.zenit||{};
   window.zenit.track=track;
-  window.zenit.identify=function(id){userId=id==null?null:String(id).slice(0,128);};
+  window.zenit.identify=function(id){
+    userId=id==null?null:String(id).slice(0,128);
+    try{if(userId)window.sessionStorage.setItem("zenit_user_id",userId);else window.sessionStorage.removeItem("zenit_user_id");}catch(e){}
+  };
   window.zenit.flush=flush;
+  var lastPageUrl=location.href;
+  function pageViewIfChanged(){
+    if(location.href!==lastPageUrl){
+      lastPageUrl=location.href;
+      setTimeout(function(){track("page_view",{title:document.title});},0);
+    }
+  }
+  var originalPushState=history.pushState;
+  history.pushState=function(){var result=originalPushState.apply(this,arguments);pageViewIfChanged();return result;};
+  var originalReplaceState=history.replaceState;
+  history.replaceState=function(){var result=originalReplaceState.apply(this,arguments);pageViewIfChanged();return result;};
+  window.addEventListener("popstate",pageViewIfChanged);
   track("page_view",{title:document.title});
   window.addEventListener("pagehide",flush);
 })();
