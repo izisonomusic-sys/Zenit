@@ -4,3 +4,13 @@
 @media(max-width:850px){.nav-links{display:none}.hero{grid-template-columns:1fr;padding-top:75px}.visual{height:410px;margin-top:20px}.section-head{align-items:start;flex-direction:column}.features{grid-template-columns:1fr}.feature{min-height:180px}.method-inner,.intelligence{grid-template-columns:1fr;gap:45px}.ai-orb{height:300px;order:2}.app-shell{grid-template-columns:1fr}.sidebar{padding:18px 22px;display:grid;grid-template-columns:1fr auto}.sidebar .brand{margin:0}.workspace-label,.side-active,.side-muted{display:none}.sidebar-bottom{margin:0;padding:0;border:0}.dashboard-main{padding:35px 22px}}
 @media(max-width:520px){.wrap{width:calc(100% - 36px)}.nav{height:72px}.nav-login{display:none}.hero{padding-top:60px;min-height:auto}.hero h1{font-size:49px}.lead{font-size:14px}.hero-actions,.proof{align-items:flex-start;flex-direction:column;gap:15px}.visual{height:330px;transform:scale(.8);margin:-10px -35px}.hero-bottom{font-size:7px}.section{padding-block:80px}.section-head h2,.method h2,.intelligence h2{font-size:43px}.method{padding:80px 0}.closing{padding-bottom:70px}.closing>div{padding:42px 24px}.closing h2{font-size:40px}.footer>div,.footer>section{align-items:flex-start;flex-direction:column}.auth-card{padding:28px 22px}.auth-brand{top:22px;left:22px}.dashboard-header{align-items:flex-start;flex-direction:column;gap:18px}.dashboard-header h1{font-size:31px}.onboarding-card{margin:38px auto;padding:26px}.workspace-form{align-items:stretch;flex-direction:column}.workspace-form .button{width:100%}.workspace-ready{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Auth improvements */
+.password-field{position:relative;display:block}
+.password-field input{padding-right:48px}
+.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;display:grid;place-items:center;border:0;background:transparent;color:#aaa7b4;cursor:pointer}
+.password-toggle:hover{color:var(--lime)}
+.auth-confirm-message{display:flex;align-items:flex-start;gap:10px;padding:16px;background:#ff5c7a18;border:1px solid #ff5c7a88;color:#ffd4dc;line-height:1.65;font-size:12px}
+.auth-confirm-message svg{flex:0 0 auto;color:var(--coral);margin-top:1px}
+.auth-form label{min-width:0}
+@media(max-width:520px){.auth-confirm-message{font-size:11px;padding:13px}}
