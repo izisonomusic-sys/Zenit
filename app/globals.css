@@ -452,3 +452,45 @@
 .app-shell .store-connect-grid>article>b{color:#14213d;font:700 14px Manrope}
 .app-shell .store-connect-grid>article>small{color:#64748b;font-size:10px;line-height:1.6;min-height:30px}
 .app-shell .store-connect-grid>article>.button,.app-shell .store-connect-grid>article>.integration-add{margin-top:auto}
+
+
+/* ZENIT private workspace refinement — white, midnight, blue and restrained gold */
+.app-shell{background:#f7f9fd;color:#101828}
+.app-shell .dashboard-content{background:#f7f9fd}
+.app-shell .dashboard-main{max-width:1500px}
+.app-shell .dashboard-header{padding-bottom:22px;margin-bottom:22px}
+.app-shell .dashboard-header h1{letter-spacing:-.055em}
+.app-shell .ecosystem-welcome{background:linear-gradient(120deg,#0b1427 0%,#142b50 65%,#1b3c70 100%);box-shadow:0 16px 40px rgba(15,35,68,.12)}
+.app-shell .ecosystem-card{border-color:#e1e7f0;box-shadow:0 10px 30px rgba(16,32,58,.045);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.app-shell .ecosystem-card:hover{transform:translateY(-2px);border-color:#b8c9e7;box-shadow:0 14px 34px rgba(16,32,58,.075)}
+.app-shell .ecosystem-item-connected{color:#9a742b;font-weight:700}
+.app-shell .ecosystem-card-icon{background:#edf3ff;color:#1f55c5}
+.app-shell .ecosystem-more{color:#9a742b}
+.app-shell .button{background:#c59a3d;color:#111827;border-radius:9px;font-weight:750}
+.app-shell .button:hover{background:#d7b15e}
+.app-shell .status-pill{border-radius:99px}
+.app-shell .workspace-ready{border-radius:99px}
+.app-shell .workspace-row,.app-shell .integration-card,.app-shell .catalogue-card,.app-shell .module-form-card,.app-shell .project-snapshot,.app-shell .project-events-panel{border-radius:13px;box-shadow:0 8px 26px rgba(16,32,58,.035)}
+.app-shell .project-analytics-kpis article{background:#fff;border:1px solid #dce3ef;border-radius:12px;box-shadow:0 7px 22px rgba(16,32,58,.035)}
+.app-shell .project-analytics-kpis article>span{color:#52627b}
+.app-shell .project-analytics-kpis article>span svg{color:#2459d3}
+.app-shell .project-analytics-kpis article>b{color:#14213d}
+.app-shell .project-analytics-kpis article>small{color:#718096}
+.app-shell .project-snapshot{background:#fff;border-color:#dce3ef}
+.app-shell .project-snapshot .analytics-panel-title b{color:#14213d}
+.app-shell .project-snapshot .analytics-panel-title span{color:#64748b}
+.app-shell .project-snapshot .analytics-snapshot-card{background:#f7f9fd;border-color:#e2e8f0}
+.app-shell .project-snapshot .analytics-snapshot-card span{color:#64748b}
+.app-shell .project-snapshot .analytics-snapshot-card b{color:#14213d}
+.app-shell .project-snapshot .analytics-snapshot-finance>div{background:#f8fafc;border-color:#e2e8f0}
+.app-shell .project-snapshot .analytics-snapshot-finance span{color:#64748b}
+.app-shell .project-snapshot .analytics-snapshot-finance b{color:#14213d}
+.app-shell .project-events-panel{background:#fff;border-color:#dce3ef}
+.app-shell .project-event-row{border-color:#edf0f5}
+.app-shell .project-event-row b{color:#14213d}
+.app-shell .project-event-row small,.app-shell .project-event-row time{color:#718096}
+.app-shell .project-event-detail summary{color:#2459d3}
+.app-shell .module-empty{border-radius:12px}
+.app-shell .store-connect-grid>article{box-shadow:0 7px 22px rgba(16,32,58,.035)}
+.app-shell .integration-add{border-radius:9px}
+@media(max-width:760px){.app-shell .dashboard-header{align-items:flex-start;gap:12px;flex-direction:column}.app-shell .ecosystem-card{padding:18px}}
