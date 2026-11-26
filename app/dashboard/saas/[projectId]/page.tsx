@@ -14,20 +14,21 @@ export default async function SaaSDetailPage({params}:{params:Promise<{projectId
  if(!project)notFound();
  const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).maybeSingle();
  if(!membership)notFound();
- const [{count:eventCount},{count:pageViewsCount},{data:events},{data:snapshotRows},{data:sources},{data:connections}]=await Promise.all([
+ const [{count:eventCount},{count:pageViewsCount},{data:events},{data:snapshotRows},{data:sources},{data:connections},{data:keys}]=await Promise.all([
   supabase.from("events").select("id",{count:"exact",head:true}).eq("project_id",projectId),
   supabase.from("events").select("id",{count:"exact",head:true}).eq("project_id",projectId).in("event_name",["page_view","$pageview","pageview"]),
   supabase.from("events").select("id,event_name,event_time,page_url,anonymous_id,session_id,properties").eq("project_id",projectId).order("event_time",{ascending:false}).limit(100),
   supabase.from("events").select("id,event_name,event_time,properties").eq("project_id",projectId).eq("event_name","app_snapshot").order("event_time",{ascending:false}).limit(1),
   supabase.from("data_sources").select("id,status").eq("project_id",projectId),
-  supabase.from("integration_connections").select("id,status").eq("project_id",projectId)
+  supabase.from("integration_connections").select("id,status").eq("project_id",projectId),
+  supabase.from("api_keys").select("id").eq("project_id",projectId).is("revoked_at",null)
  ]);
  const rows=(events||[]) as EventRow[];
  const sessions=new Set(rows.map(e=>e.session_id).filter(Boolean));
  const visitors=new Set(rows.map(e=>e.anonymous_id).filter(Boolean));
  const snapshot=snapshotRows?.[0]||null;
  const snapshotProps=(snapshot?.properties||{}) as Record<string,unknown>;
- const connected=rows.length>0||(sources||[]).some(x=>x.status==="connected")||(connections||[]).some(x=>x.status==="connected");
+ const connected=!!keys?.length||rows.length>0||(sources||[]).some(x=>x.status==="connected")||(connections||[]).some(x=>x.status==="connected");
  const snapshotLabels=[
   ["businesses_count","Entreprises"],["clients_count","Clients"],["projects_count","Chantiers"],
   ["quotes_count","Devis"],["invoices_count","Factures"],["payments_count","Paiements"],
