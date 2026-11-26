@@ -13,7 +13,7 @@ export default async function SaaSDetailPage({params,searchParams}:{params:Promi
  if(!project)notFound();
  const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).maybeSingle();
  if(!membership)notFound();
- const {data:keys}=await supabase.from("api_keys").select("id,label,key_prefix,last_used_at,revoked_at,created_at").eq("project_id",projectId).order("created_at",{ascending:false});
+ const {data:keys}=await supabase.from("api_keys").select("id,label,key_prefix,key_type,last_used_at,revoked_at,created_at").eq("project_id",projectId).order("created_at",{ascending:false});
  const endpoint=process.env.NEXT_PUBLIC_SITE_URL||"https://zenit-unv7.onrender.com";
  return <main className="dashboard-main module-main">
   <Link href="/dashboard/saas" className="module-back"><ArrowLeft size={14}/> Mes SaaS</Link>
