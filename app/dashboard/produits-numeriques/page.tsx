@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import {ArrowUpRight,BookOpen,CheckCircle2,Download,ExternalLink,Package,RefreshCw,ShoppingBag,Store,Wallet} from "lucide-react";
+import {ArrowUpRight,BookOpen,CheckCircle2,Download,ExternalLink,Package,RefreshCw,ShoppingBag,Store,Users,Wallet} from "lucide-react";
 import {createClient} from "@/lib/supabase/server";
 import {addDigitalProduct,syncChariow} from "./actions";
 export const dynamic="force-dynamic";
