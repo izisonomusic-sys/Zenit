@@ -76,6 +76,7 @@ export default async function DigitalProductsPage({
   const failed = sales.filter(sale => sale.sale_status === "failed" || sale.payment_status === "failed");
   const abandoned = sales.filter(sale => sale.sale_status === "abandoned");
   const cancelled = sales.filter(sale => sale.payment_status === "cancelled");
+  const issueCount = sales.filter(sale => sale.sale_status === "failed" || sale.payment_status === "failed" || sale.sale_status === "abandoned" || sale.payment_status === "cancelled").length;
   const currency = completed.find(sale => sale.currency)?.currency || sales.find(sale => sale.currency)?.currency || "XOF";
   const gross = completed.reduce((sum, sale) => sum + Number(sale.amount || 0), 0);
   const net = completed.reduce((sum, sale) => sum + Number(sale.settlement_amount || 0), 0);
@@ -139,12 +140,12 @@ export default async function DigitalProductsPage({
 
       {connection && (
         <section className="chariow-analytics">
-          <div className="workspace-list-head"><div><h2>Performances de la boutique</h2><p>Données importées depuis l’API Chariow · {sales.length} vente(s) chargée(s)</p></div><span className="status-pill">{liveApiError ? "API à vérifier" : "Données synchronisées"}</span></div>
+          <div className="workspace-list-head"><div><h2>Performances de la boutique</h2><p>Données importées depuis l’API Chariow · {sales.length} vente(s) chargée(s)</p></div><span className="status-pill">{liveApiError ? "API à vérifier" : connection.last_synced_at ? "Données synchronisées" : "API connectée"}</span></div>
           <div className="metric-grid chariow-metrics">
             <article className="metric-card"><div><span>Chiffre d’affaires brut</span><ShoppingBag size={17}/></div><strong>{money(gross, currency)}</strong><small>Ventes au statut terminé</small></article>
             <article className="metric-card"><div><span>Montant net reversé</span><CheckCircle2 size={17}/></div><strong>{money(net, currency)}</strong><small>Selon les règlements fournis</small></article>
             <article className="metric-card"><div><span>Ventes réussies</span><CheckCircle2 size={17}/></div><strong>{completed.length}</strong><small>Paiements terminés</small></article>
-            <article className="metric-card"><div><span>Échecs / abandons</span><AlertCircle size={17}/></div><strong>{failed.length + abandoned.length + cancelled.length}</strong><small>{failed.length} échec(s), {abandoned.length} abandon(s), {cancelled.length} paiement(s) annulé(s)</small></article>
+            <article className="metric-card"><div><span>Échecs / abandons</span><AlertCircle size={17}/></div><strong>{issueCount}</strong><small>{failed.length} échec(s), {abandoned.length} abandon(s), {cancelled.length} paiement(s) annulé(s)</small></article>
           </div>
           <div className="module-list">
             <div className="workspace-list-head"><div><h2>Dernières ventes importées</h2><p>Le détail financier et le statut de paiement reçus de Chariow.</p></div></div>
