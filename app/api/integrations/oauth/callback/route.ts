@@ -24,7 +24,7 @@ export async function GET(request:NextRequest){
  if(!creds.id||!creds.secret)return fail("provider_not_configured");
  const redirectUri=new URL("/api/integrations/oauth/callback",request.url).toString();
  let tokenData:any;
- if(provider==="ga4"||provider==="youtube"||provider==="linkedin"){
+ if(provider==="ga4"||provider==="youtube"||provider==="google_ads"||provider==="linkedin"){
   const tokenUrl=provider==="ga4"||provider==="youtube"||provider==="google_ads"?"https://oauth2.googleapis.com/token":"https://www.linkedin.com/oauth/v2/accessToken";
   const body=new URLSearchParams({grant_type:"authorization_code",code,client_id:creds.id,client_secret:creds.secret,redirect_uri:redirectUri});
   tokenData=await readJson(await fetch(tokenUrl,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body}));
