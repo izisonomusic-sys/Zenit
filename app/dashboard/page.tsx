@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import {Activity,ArrowUpRight,Blocks,ChartNoAxesCombined,Globe2,Package,Store,Users} from "lucide-react";
+import {ArrowUpRight,Blocks,ChartNoAxesCombined,Globe2,Package,Store} from "lucide-react";
 import {createClient} from "@/lib/supabase/server";
 export const dynamic="force-dynamic";
 const fmt=(n:number)=>new Intl.NumberFormat("fr-FR").format(n);
@@ -44,7 +44,7 @@ export default async function DashboardPage(){
   <header className="dashboard-header"><div><div className="eyebrow">ZENIT / CENTRE DE PILOTAGE</div><h1>Vue d’ensemble.</h1><p>Bienvenue{user.user_metadata?.full_name?", "+String(user.user_metadata.full_name).split(" ")[0]:""} · {workspace?.name||"Mon espace"}</p></div><span className="status-pill"><i/> Espace actif</span></header>
   <section className="ecosystem-welcome"><div><span className="eyebrow">VOTRE ÉCOSYSTÈME NUMÉRIQUE</span><h2>Toutes vos connexions.<br/><em>Un seul espace.</em></h2><p>Consultez les applications, réseaux, boutiques et produits numériques déjà reliés à ZENIT. Chaque élément ouvre sa fiche de suivi.</p></div><div className="ecosystem-total"><span>Connexions actives</span><b>{fmt(sections.reduce((n,x)=>n+x.count,0))}</b><small>{fmt(ec.count||0)} événements ces 30 derniers jours</small></div></section>
   <section className="ecosystem-grid">{sections.map(section=>{const Icon=section.icon;return <article className="ecosystem-card" key={section.id}><div className="ecosystem-card-head"><span className="ecosystem-card-icon"><Icon size={19}/></span><span className="ecosystem-count">{fmt(section.count)}</span></div><h2>{section.title}</h2><p>{section.desc}</p><div className="ecosystem-items">{section.items.length?section.items.map((item,i)=><Item key={section.id+":"+i} {...item}/>):<div className="ecosystem-empty">{section.empty}</div>}</div><Link className="ecosystem-more" href={section.href}>Voir plus <ArrowUpRight size={15}/></Link></article>})}</section>
-  <section className="dashboard-dev-shortcut"><div><span className="eyebrow">DÉVELOPPEMENT</span><b>API et SDK ZENIT</b><small>Les outils techniques pour connecter vos propres applications restent dans l’espace Développement.</small></div><Link href="/dashboard/developpement/api">Accéder à l’API et au SDK <ArrowUpRight size={14}/></Link></section>
+
   <footer className="dashboard-foot">ZENIT · CONNEXIONS ET DONNÉES DE VOTRE ESPACE · {workspace?.name||"ESPACE ACTIF"}</footer>
  </main>;
 }
