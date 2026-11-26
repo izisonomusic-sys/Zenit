@@ -28,7 +28,8 @@ export async function GET(request:NextRequest){
  const stateHash=createHash("sha256").update(state).digest("hex");
  const {error}=await supabase.rpc("zenit_create_oauth_state",{p_state_hash:stateHash,p_provider:provider});
  if(error)return NextResponse.redirect(new URL("/dashboard/integrations?oauth_error=state",request.url));
- const redirectUri=new URL("/api/integrations/oauth/callback",request.url).toString();
+ const siteUrl=(process.env.NEXT_PUBLIC_SITE_URL||new URL(request.url).origin).replace(/\\/$/,"");
+ const redirectUri=siteUrl+"/api/integrations/oauth/callback";
  const auth=new URL(cfg.authorizeUrl);
  auth.searchParams.set("client_id",cfg.clientId);
  auth.searchParams.set("redirect_uri",redirectUri);
