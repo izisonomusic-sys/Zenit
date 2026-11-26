@@ -7,8 +7,8 @@ const fmt=(n:number)=>new Intl.NumberFormat("fr-FR").format(n);
 const platformLabel:Record<string,string>={website:"Site web",web_app:"Application web",mobile_app:"Application mobile",saas:"SaaS",ecommerce:"Boutique en ligne",other:"Produit numérique"};
 const brand:Record<string,{name:string;logo:string}>={instagram:{name:"Instagram",logo:"https://cdn.simpleicons.org/instagram/E4405F"},facebook:{name:"Facebook",logo:"https://cdn.simpleicons.org/facebook/1877F2"},tiktok:{name:"TikTok",logo:"https://cdn.simpleicons.org/tiktok/000000"},youtube:{name:"YouTube",logo:"https://cdn.simpleicons.org/youtube/FF0033"},linkedin:{name:"LinkedIn",logo:"https://cdn.simpleicons.org/linkedin/0A66C2"},x:{name:"X",logo:"https://cdn.simpleicons.org/x/000000"},shopify:{name:"Shopify",logo:"https://cdn.simpleicons.org/shopify/7AB55C"},woocommerce:{name:"WooCommerce",logo:"https://cdn.simpleicons.org/woocommerce/96588A"},chariow:{name:"Chariow",logo:""},maketou:{name:"Maketou",logo:""}};
 const socialIds=["instagram","facebook","tiktok","youtube","linkedin","x","meta_ads"];
-const shopIds=["shopify","woocommerce"];
-const digitalIds=["chariow","maketou"];
+const shopIds=["shopify","woocommerce","chariow","maketou"];
+const digitalIds:string[]=[];
 function Item({name,detail,logo,href}:{name:string;detail:string;logo:string;href:string}){return <div className="ecosystem-item"><span className="ecosystem-logo">{logo?<img src={logo} alt=""/>:<b>{name.slice(0,1).toUpperCase()}</b>}</span><span className="ecosystem-item-copy"><b>{name}</b><small>{detail}</small></span><Link href={href} aria-label={"Voir "+name}><ArrowUpRight size={15}/></Link></div>}
 export default async function DashboardPage(){
  const s=await createClient();const{data:{user}}=await s.auth.getUser();if(!user)redirect("/login");
