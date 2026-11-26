@@ -13,7 +13,7 @@ export async function createSaaS(formData:FormData){
  if(error)redirect("/dashboard/saas?error=save");redirect("/dashboard/saas?created=1");
 }
 
-export async function createSdkKey(projectId:string,label:string){
+export async function createApiKey(projectId:string,label:string,keyType:"public"|"secret"="public"){
  const cleanLabel=String(label||"").trim();
  if(cleanLabel.length<2||cleanLabel.length>80)return {error:"Donnez un nom de 2 à 80 caractères à cette clé."};
  const supabase=await createClient();
@@ -23,12 +23,12 @@ export async function createSdkKey(projectId:string,label:string){
  if(!project)return {error:"Ce projet n'appartient pas à votre espace."};
  const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).in("role",["owner","admin"]).maybeSingle();
  if(!membership)return {error:"Seul le propriétaire ou un administrateur peut créer une clé SDK."};
- const rawKey="zn_live_"+randomBytes(32).toString("base64url");
+ const rawKey=(keyType==="public"?"zn_pub_":"zn_sec_")+randomBytes(32).toString("base64url");
  const keyPrefix=rawKey.slice(0,16);
  const keyHash=createHash("sha256").update(rawKey).digest("hex");
- const {error}=await supabase.rpc("zenit_create_sdk_key",{p_project_id:projectId,p_label:cleanLabel,p_key_prefix:keyPrefix,p_key_hash:keyHash});
+ const {error}=await supabase.rpc("zenit_create_api_key",{p_project_id:projectId,p_label:cleanLabel,p_key_type:keyType,p_key_prefix:keyPrefix,p_key_hash:keyHash});
  if(error)return {error:"La clé n'a pas pu être créée. Vérifiez vos droits et réessayez."};
- return {key:rawKey};
+ return {key:rawKey,keyType};
 }
 
 export async function revokeSdkKey(projectId:string,keyId:string){
