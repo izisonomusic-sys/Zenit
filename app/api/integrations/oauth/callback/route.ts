@@ -23,7 +23,7 @@ export async function GET(request:NextRequest){
  const creds=credentials(provider);
  if(!creds.id||!creds.secret)return fail("provider_not_configured");
  try{
- const siteUrl=(process.env.NEXT_PUBLIC_SITE_URL||new URL(request.url).origin).replace(/\\/$/,"");
+ const siteUrl=(process.env.NEXT_PUBLIC_SITE_URL||new URL(request.url).origin).replace(/\/+$/,"");
  const redirectUri=siteUrl+"/api/integrations/oauth/callback";
  let tokenData:any;
  if(provider==="ga4"||provider==="youtube"||provider==="google_ads"||provider==="linkedin"){
