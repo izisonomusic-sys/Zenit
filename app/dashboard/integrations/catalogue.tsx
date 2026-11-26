@@ -20,7 +20,7 @@ const apps:App[] = [
  {id:"x",name:"X",category:"Réseaux sociaux",description:"Impressions et interactions selon les droits API.",logo:"https://cdn.simpleicons.org/x/FFFFFF",color:"#ffffff",method:"OAuth 2.0",connected:false,available:false},
  {id:"ga4",name:"Google Analytics 4",category:"Analytics",description:"Trafic, sessions, événements et conversions.",logo:"https://cdn.simpleicons.org/googleanalytics/E9AB27",color:"#e9ab27",method:"Google OAuth",href:"/api/integrations/oauth/start?provider=ga4",connected:false,available:true},
  {id:"meta_ads",name:"Meta Ads",category:"Publicité",description:"Dépenses, campagnes, clics et résultats publicitaires.",logo:"https://cdn.simpleicons.org/meta/1877F2",color:"#1877f2",method:"Meta OAuth",connected:false,available:false},
- {id:"google_ads",name:"Google Ads",category:"Publicité",description:"Campagnes, coûts et conversions publicitaires.",logo:"https://cdn.simpleicons.org/googleads/34A853",color:"#34a853",method:"Google OAuth",connected:false,available:false},
+ {id:"google_ads",name:"Google Ads",category:"Publicité",description:"Campagnes, coûts et conversions publicitaires.",logo:"https://cdn.simpleicons.org/googleads/34A853",color:"#34a853",method:"Google OAuth",href:"/api/integrations/oauth/start?provider=google_ads",connected:false,available:true},
  {id:"zenit_sdk",name:"ZENIT SDK",category:"SaaS & développeurs",description:"Suivi des inscriptions, événements et abonnements de votre SaaS.",logo:"",color:"#c8f169",method:"Installation du SDK",href:"/dashboard/saas",connected:false,available:true},
 ];
 const categories=["Toutes","E-commerce","Produits numériques","Réseaux sociaux","Marketing","Analytics","Publicité","SaaS & développeurs"];
