@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Activity, BarChart3, Blocks, BookOpen, Cable, ChartNoAxesCombined, Globe2, LayoutDashboard, LogOut, Package, Settings2, ShoppingBag, Store, Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 export const dynamic="force-dynamic";
-const nav=[{href:"/dashboard",label:"Vue d’ensemble",icon:LayoutDashboard},{href:"/dashboard/saas",label:"Mes SaaS",icon:Blocks},{href:"/dashboard/boutiques",label:"Boutiques",icon:Store},{href:"/dashboard/produits-numeriques",label:"Produits numériques",icon:Package},{href:"/dashboard/formations",label:"Formations",icon:BookOpen},{href:"/dashboard/integrations",label:"Intégrations",icon:Cable},{href:"/dashboard/settings",label:"Paramètres",icon:Settings2}];
+const nav=[{href:"/dashboard",label:"Vue d’ensemble",icon:LayoutDashboard},{href:"/dashboard/saas",label:"Mes SaaS",icon:Blocks},{href:"/dashboard/boutiques",label:"Boutiques",icon:Store},{href:"/dashboard/reseaux-sociaux",label:"Réseaux sociaux",icon:ChartNoAxesCombined},{href:"/dashboard/produits-numeriques",label:"Produits numériques",icon:Package},{href:"/dashboard/formations",label:"Formations",icon:BookOpen},{href:"/dashboard/integrations",label:"Intégrations",icon:Cable},{href:"/dashboard/settings",label:"Paramètres",icon:Settings2}];
 export default async function DashboardLayout({children}:{children:React.ReactNode}){
  const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
  const name=String(user.user_metadata?.full_name||user.email||"Compte"); 
