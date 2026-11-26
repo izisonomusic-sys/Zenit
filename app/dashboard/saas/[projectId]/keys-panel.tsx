@@ -2,7 +2,7 @@
 import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {Check,Clipboard,KeyRound,Plus,ShieldCheck,Trash2} from "lucide-react";
-import {createSdkKey,revokeSdkKey} from "./actions";
+import {createSdkKey,revokeSdkKey} from "../actions";
 
 type ApiKey={id:string;label:string;key_prefix:string;last_used_at:string|null;revoked_at:string|null;created_at:string};
 export default function SdkKeyPanel({projectId,keys,endpoint}:{projectId:string;keys:ApiKey[];endpoint:string}){
