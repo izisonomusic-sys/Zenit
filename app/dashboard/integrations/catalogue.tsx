@@ -21,7 +21,7 @@ const apps:App[] = [
  {id:"ga4",name:"Google Analytics 4",category:"Analytics",description:"Trafic, sessions, événements et conversions.",logo:"https://cdn.simpleicons.org/googleanalytics/E9AB27",color:"#e9ab27",method:"Google OAuth",connected:false,available:false},
  {id:"meta_ads",name:"Meta Ads",category:"Publicité",description:"Dépenses, campagnes, clics et résultats publicitaires.",logo:"https://cdn.simpleicons.org/meta/1877F2",color:"#1877f2",method:"Meta OAuth",connected:false,available:false},
  {id:"google_ads",name:"Google Ads",category:"Publicité",description:"Campagnes, coûts et conversions publicitaires.",logo:"https://cdn.simpleicons.org/googleads/34A853",color:"#34a853",method:"Google OAuth",connected:false,available:false},
- {id:"zenit_sdk",name:"ZENIT SDK",category:"SaaS & développeurs",description:"Suivi des inscriptions, événements et abonnements de votre SaaS.",logo:"",color:"#c8f169",method:"Installation du SDK",connected:false,available:true},
+ {id:"zenit_sdk",name:"ZENIT SDK",category:"SaaS & développeurs",description:"Suivi des inscriptions, événements et abonnements de votre SaaS.",logo:"",color:"#c8f169",method:"Installation du SDK",href:"/dashboard/saas",connected:false,available:true},
 ];
 const categories=["Toutes","E-commerce","Produits numériques","Réseaux sociaux","Marketing","Analytics","Publicité","SaaS & développeurs"];
 export default function IntegrationCatalogue({connectedProviders=[]}:{connectedProviders?:string[]}){
@@ -32,9 +32,9 @@ export default function IntegrationCatalogue({connectedProviders=[]}:{connectedP
   <div className="catalogue-toolbar"><label className="catalogue-search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Rechercher une application…"/></label><span>{filtered.length} applications</span></div>
   <div className="catalogue-categories">{categories.map(c=><button key={c} onClick={()=>setCategory(c)} className={category===c?"active":""}>{c}</button>)}</div>
   <div className="catalogue-grid">{filtered.map(app=>{const isConnected=connected.has(app.id);return <article className="catalogue-card" key={app.id}>
-   <div className="catalogue-card-top"><span className="catalogue-logo" style={{background:app.color+"18",borderColor:app.color+"55"}}>{app.logo?<img src={app.logo} alt={app.name}/>:"Z"}</span><span className={isConnected?"catalogue-status connected":"catalogue-status"}>{isConnected?<><Check size={12}/> Connectée</>:"Disponible"}</span></div>
+   <div className="catalogue-card-top"><span className="catalogue-logo" style={{background:app.color+"18",borderColor:app.color+"55"}}>{app.logo?<img src={app.logo} alt={app.name}/>:"Z"}</span><span className={isConnected?"catalogue-status connected":"catalogue-status"}>{isConnected?<><Check size={12}/> Connectée</>:app.available?"Prête à configurer":"En préparation"}</span></div>
    <div className="catalogue-card-copy"><small>{app.category}</small><h3>{app.name}</h3><p>{app.description}</p></div>
-   <div className="catalogue-card-bottom"><span><LockKeyhole size={12}/>{app.method}</span>{isConnected?<button disabled className="catalogue-connect connected-button">Connectée</button>:app.href?<Link className="catalogue-connect" href={app.href}>Installer <ArrowUpRight size={14}/></Link>:<button className="catalogue-connect" onClick={()=>window.location.href="/dashboard/integrations?provider="+app.id+"&setup_required=1"}>Installer <ArrowUpRight size={14}/></button>}</div>
+   <div className="catalogue-card-bottom"><span><LockKeyhole size={12}/>{app.method}</span>{isConnected?<button disabled className="catalogue-connect connected-button">Connectée</button>:app.available&&app.href?<Link className="catalogue-connect" href={app.href}>Configurer <ArrowUpRight size={14}/></Link>:<button disabled className="catalogue-connect" title="Le connecteur officiel est en cours de préparation">Bientôt disponible</button>}</div>
   </article>})}</div>
   {!filtered.length&&<div className="catalogue-empty"><PlugZap size={24}/><b>Aucune application trouvée</b><span>Essayez un autre nom ou une autre catégorie.</span></div>}
  </section>;
