@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import {ArrowUpRight,ChartNoAxesCombined,Eye,MessageCircle,PlayCircle,Users} from "lucide-react";
+import {ArrowUpRight,Eye,MessageCircle,PlayCircle,Users} from "lucide-react";
 import {createClient} from "@/lib/supabase/server";
 export const dynamic="force-dynamic";
 const social=[
