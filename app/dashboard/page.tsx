@@ -59,7 +59,6 @@ export default async function DashboardPage(){
   const lastEvent=projectEvents[0]?.event_time||null;
   return {...p,connected:p.is_active&&connectedProjectIds.has(p.id),eventCount:projectEvents.length,lastEvent};
  });
- const projectIds=new Set(projects.map(p=>p.id));
  const externalSources=connectedSources;
  const integrationCards=connectedIntegrations;
  const fmtDate=(value:string|null)=>value?new Date(value).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"}):"Aucune donnée reçue";
