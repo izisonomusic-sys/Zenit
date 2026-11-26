@@ -46,14 +46,14 @@ export async function revokeSdkKey(projectId:string,keyId:string){
 export async function updateSaaSDomain(projectId:string,formData:FormData){
  const raw=String(formData.get("website_url")||"").trim();
  let origin="";
- try{const parsed=new URL(raw);if(!["http:","https:"].includes(parsed.protocol)||parsed.username||parsed.password)throw new Error();origin=parsed.origin;}catch{return {error:"Entrez une URL valide en HTTPS."};}
+ try{const parsed=new URL(raw);if(parsed.protocol!=="https:"||parsed.username||parsed.password)throw new Error();origin=parsed.origin;}catch{redirect("/dashboard/saas/"+projectId+"?domain_error=invalid");}
  const supabase=await createClient();
- const {data:{user}}=await supabase.auth.getUser();if(!user)return {error:"Reconnectez-vous."};
+ const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
  const {data:project}=await supabase.from("tracked_projects").select("id,workspace_id").eq("id",projectId).maybeSingle();
- if(!project)return {error:"Projet introuvable."};
+ if(!project)redirect("/dashboard/saas?error=project");
  const {data:membership}=await supabase.from("workspace_members").select("role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).in("role",["owner","admin"]).maybeSingle();
- if(!membership)return {error:"Droit administrateur requis."};
+ if(!membership)redirect("/dashboard/saas/"+projectId+"?domain_error=permission");
  const {error}=await supabase.from("tracked_projects").update({website_url:origin}).eq("id",projectId).eq("workspace_id",project.workspace_id);
- if(error)return {error:"Impossible de mettre à jour le domaine."};
+ if(error)redirect("/dashboard/saas/"+projectId+"?domain_error=save");
  redirect("/dashboard/saas/"+projectId+"?domain_updated=1");
 }
