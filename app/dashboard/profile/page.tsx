@@ -1,0 +1,15 @@
+import Link from "next/link";
+import {redirect} from "next/navigation";
+import {ArrowUpRight,UserRound,Mail,Phone,Building2,Briefcase,ShieldCheck} from "lucide-react";
+import {createClient} from "@/lib/supabase/server";
+import {updateProfile} from "../settings/actions";
+export const dynamic="force-dynamic";
+export default async function ProfilePage({searchParams}:{searchParams:Promise<{saved?:string;error?:string}>}){
+ const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");const params=await searchParams;const meta=user.user_metadata||{};
+ return <main className="dashboard-main module-main"><Link href="/dashboard" className="module-back">← Tableau de bord</Link><header className="dashboard-header"><div><div className="eyebrow">ZENIT / COMPTE</div><h1>Mon profil.</h1><p>Gérez vos coordonnées et les informations associées à votre espace.</p></div><span className="status-pill"><UserRound size={13}/> Profil personnel</span></header>
+ {params.saved&&<div className="success-banner">Votre profil a été mis à jour.</div>}{params.error&&<div className="form-message">{params.error==="name"?"Le nom doit contenir au moins deux caractères.":"Impossible d’enregistrer votre profil. Réessayez."}</div>}
+ <section className="profile-hero"><div className="profile-avatar">{String(meta.full_name||user.email||"Z").slice(0,1).toUpperCase()}</div><div><span className="eyebrow">VOTRE IDENTITÉ ZENIT</span><h2>{meta.full_name||"Votre nom"}</h2><p>{user.email}</p></div><span className="workspace-ready"><ShieldCheck size={13}/> Compte sécurisé</span></section>
+ <section className="module-form-card profile-form-card"><div className="eyebrow">INFORMATIONS PERSONNELLES</div><h2>Vos coordonnées</h2><p className="module-description">Ces informations servent à personnaliser votre espace. Votre adresse e-mail reste gérée par le système d’authentification.</p><form action={updateProfile} className="module-form profile-form"><label><span><UserRound size={14}/> Nom complet</span><input name="full_name" required minLength={2} defaultValue={meta.full_name||""} placeholder="Votre nom et prénom"/></label><label><span><Mail size={14}/> Adresse e-mail</span><input value={user.email||""} readOnly disabled/></label><label><span><Phone size={14}/> Téléphone</span><input name="phone" defaultValue={meta.phone||""} placeholder="+228 …"/></label><label><span><Building2 size={14}/> Organisation</span><input name="company" defaultValue={meta.company||""} placeholder="Nom de votre entreprise"/></label><label><span><Briefcase size={14}/> Fonction</span><input name="job_title" defaultValue={meta.job_title||""} placeholder="Fondateur, responsable…"/></label><button className="button">Enregistrer le profil <ArrowUpRight size={14}/></button></form></section>
+ <section className="profile-settings-links"><Link href="/dashboard/settings"><ShieldCheck size={17}/><span><b>Sécurité et paramètres</b><small>Mot de passe, sécurité et préférences du compte</small></span><ArrowUpRight size={15}/></Link></section>
+ </main>;
+}
