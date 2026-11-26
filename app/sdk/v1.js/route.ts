@@ -25,12 +25,12 @@ export async function GET(){
     .catch(function(){ queue = batch.concat(queue).slice(-100); })
     .finally(function(){ sending=false; if(queue.length) setTimeout(send,500); });
   }
-  function track(name, properties) {
+  function track(name, properties, userId) {
    if (typeof name !== "string" || !name.trim()) return;
-   var event = {name:name.trim().slice(0,120),timestamp:new Date().toISOString(),anonymous_id:anonymousId,session_id:sessionId,url:location.href.slice(0,2048),referrer:document.referrer.slice(0,2048),properties:properties && typeof properties === "object" && !Array.isArray(properties) ? properties : {}};
+   var event = {name:name.trim().slice(0,120),timestamp:new Date().toISOString(),anonymous_id:anonymousId,session_id:sessionId,user_id:userId ? String(userId).slice(0,128) : null,url:location.href.slice(0,2048),referrer:document.referrer.slice(0,2048),properties:properties && typeof properties === "object" && !Array.isArray(properties) ? properties : {}};
    queue.push(event); if(queue.length>=10) send(); else if(queue.length===1) setTimeout(send,1200);
   }
-  window.zenit = {track:track, page: function(){track("page_view");}, identify:function(userId, traits){track("identify",{user_id:String(userId).slice(0,128),traits:traits||{}});}};
+  window.zenit = {track:track, page: function(){track("page_view");}, identify:function(userId, traits){track("identify",{traits:traits||{}},userId);}};
   window.ZENIT = window.zenit;
   track("page_view");
   var lastUrl = location.href;
