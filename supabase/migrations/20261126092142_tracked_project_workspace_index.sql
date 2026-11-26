@@ -1,0 +1,1 @@
+create index if not exists tracked_projects_workspace_id_idx on public.tracked_projects(workspace_id);
