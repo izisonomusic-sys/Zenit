@@ -426,3 +426,16 @@
 .app-shell .dashboard-dev-shortcut small{font-size:10px;color:#64748b}
 .app-shell .dashboard-dev-shortcut>a{display:flex;align-items:center;gap:6px;color:#2459d3;font-size:10px;white-space:nowrap}
 @media(max-width:760px){.app-shell .ecosystem-grid{grid-template-columns:1fr}.app-shell .ecosystem-welcome{align-items:flex-start;flex-direction:column;padding:24px}.app-shell .ecosystem-total{width:100%}.app-shell .dashboard-dev-shortcut{align-items:flex-start;flex-direction:column}}
+
+.app-shell .digital-platform-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.app-shell .digital-platform-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:20px;background:#fff;border:1px solid #dce3ef;border-radius:13px;min-width:0}
+.app-shell .digital-platform-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.app-shell .digital-platform-logo{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#edf3ff;color:#2459d3;font:800 20px Manrope}
+.app-shell .digital-platform-logo.chariow{background:#fff4df;color:#a77c25}
+.app-shell .digital-platform-logo.maketou{background:#eaf1ff;color:#2459d3}
+.app-shell .digital-platform-card h3{margin:3px 0 0;color:#14213d;font:700 17px Manrope}
+.app-shell .digital-platform-card p{margin:0;color:#64748b;font-size:11px}
+.app-shell .digital-platform-card>small{color:#8290a5;font-size:9px;line-height:1.5}
+.app-shell .digital-platform-link{display:inline-flex;align-items:center;gap:7px;margin-top:auto;color:#2459d3;font-size:10px;font-weight:650}
+.app-shell .social-sync-date{display:block;color:#718096;font-size:9px;margin:0 0 8px}
+@media(max-width:680px){.app-shell .digital-platform-grid{grid-template-columns:1fr}}
