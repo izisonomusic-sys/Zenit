@@ -4,7 +4,6 @@ import { ArrowLeft, Store, Package, Settings2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 export const dynamic="force-dynamic";
 const modules:Record<string,{title:string;eyebrow:string;description:string;icon:any;items:string[]}> = {
- formations:{title:"Formations",eyebrow:"ESPACE FORMATIONS",description:"Un espace dédié à vos contenus de formation, parcours pédagogiques et résultats d’apprentissage.",icon:BookOpen,items:["Catalogue de formations","Parcours et inscriptions","Suivi de progression"]},
  boutiques:{title:"Boutiques",eyebrow:"ESPACE COMMERCE",description:"Centralisez les performances de vos boutiques en ligne et suivez les indicateurs de votre activité commerciale.",icon:Store,items:["Boutiques connectées","Commandes et conversions","Performance des ventes"]},
  "produits-numeriques":{title:"Produits numériques",eyebrow:"ESPACE PRODUITS",description:"Préparez le suivi de vos produits digitaux, téléchargements, ventes et engagement des clients.",icon:Package,items:["Catalogue de produits digitaux","Téléchargements et accès","Ventes et engagement"]},
  settings:{title:"Paramètres",eyebrow:"CONFIGURATION",description:"Les paramètres du compte, de l’espace de travail et des membres seront regroupés ici.",icon:Settings2,items:["Profil et préférences","Membres et rôles","Sécurité du compte"]}
