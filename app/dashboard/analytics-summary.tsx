@@ -1,4 +1,4 @@
-"import {Activity,ArrowUpRight,MousePointerClick,Users,Eye} from "lucide-react";
+import {Activity,ArrowUpRight,MousePointerClick,Users,Eye} from "lucide-react";
 import Link from "next/link";
 import {createClient} from "@/lib/supabase/server";
 
