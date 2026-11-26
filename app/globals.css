@@ -296,3 +296,26 @@
 .analytics-snapshot-finance b{display:block;margin-top:6px;color:var(--lime);font:600 12px Manrope;overflow-wrap:anywhere}
 @media(max-width:760px){.analytics-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.analytics-snapshot-finance{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.analytics-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.analytics-snapshot-head{align-items:flex-start;flex-direction:column}}
+
+/* Per-project analytics and full event history */
+.project-analytics-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 16px}
+.project-analytics-kpis article{padding:16px;background:linear-gradient(145deg,#1b1c24,#171820);border:1px solid var(--line)}
+.project-analytics-kpis article>span{display:flex;align-items:center;gap:7px;color:#aaa7b4;font-size:10px}
+.project-analytics-kpis article>span svg{color:var(--lime)}
+.project-analytics-kpis article>b{display:block;margin:10px 0 3px;color:#f4f2f7;font:700 24px Manrope}
+.project-analytics-kpis article>small{color:#85828f;font-size:9px}
+.project-snapshot{margin:0 0 16px;padding:18px;background:linear-gradient(145deg,#1b1c24,#171820);border:1px solid var(--line)}
+.project-events-panel{margin:18px 0;padding:20px;background:#191a21;border:1px solid var(--line)}
+.project-event-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0;border-top:1px solid #ffffff12}
+.project-event-row>div{display:grid;gap:5px;min-width:0}.project-event-row b{color:#f4f2f7;font:600 11px Manrope}.project-event-row small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#85828f;font-size:9px}
+.project-event-row time,.project-event-detail time{flex:0 0 auto;color:#85828f;font:9px 'DM Mono'}
+.project-event-detail{padding:15px 0;border-top:1px solid #ffffff12}
+.project-event-detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.project-event-detail-head>b{color:#f4f2f7;font:600 12px Manrope}
+.project-event-meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin:9px 0;color:#85828f;font:9px 'DM Mono';overflow-wrap:anywhere}
+.project-event-detail details{margin-top:9px;padding:10px;background:#ffffff05;border:1px solid #ffffff0c}
+.project-event-detail summary{cursor:pointer;color:#c8f169;font-size:10px}
+.project-event-detail pre{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#c9c6d0;font:9px/1.6 'DM Mono';margin:10px 0 0}
+.project-events-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid #ffffff12;color:#9693a0;font-size:10px}
+.project-events-pagination>div{display:flex;gap:8px}
+@media(max-width:760px){.project-analytics-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.project-event-row,.project-event-detail-head{align-items:flex-start;flex-direction:column}.project-events-pagination{align-items:flex-start;flex-direction:column}}
