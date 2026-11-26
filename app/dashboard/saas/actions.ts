@@ -22,7 +22,7 @@ export async function createApiKey(projectId:string,label:string,keyType:"public
  const {data:project}=await supabase.from("tracked_projects").select("id,workspace_id").eq("id",projectId).maybeSingle();
  if(!project)return {error:"Ce projet n'appartient pas à votre espace."};
  const {data:membership}=await supabase.from("workspace_members").select("workspace_id,role").eq("workspace_id",project.workspace_id).eq("user_id",user.id).in("role",["owner","admin"]).maybeSingle();
- if(!membership)return {error:"Seul le propriétaire ou un administrateur peut créer une clé SDK."};
+ if(!membership)return {error:"Seul le propriétaire ou un administrateur peut créer une clé API."};
  const rawKey=(keyType==="public"?"zn_pub_":"zn_sec_")+randomBytes(32).toString("base64url");
  const keyPrefix=rawKey.slice(0,16);
  const keyHash=createHash("sha256").update(rawKey).digest("hex");
