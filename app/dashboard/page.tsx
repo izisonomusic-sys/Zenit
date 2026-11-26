@@ -9,7 +9,7 @@ const brand:Record<string,{name:string;logo:string}>={instagram:{name:"Instagram
 const socialIds=["instagram","facebook","tiktok","youtube","linkedin","x","meta_ads"];
 const shopIds=["shopify","woocommerce","chariow","maketou"];
 const digitalIds:string[]=[];
-function Item({name,detail,logo,href}:{name:string;detail:string;logo:string;href:string}){return <div className="ecosystem-item"><span className="ecosystem-logo">{logo?<img src={logo} alt=""/>:<b>{name.slice(0,1).toUpperCase()}</b>}</span><span className="ecosystem-item-copy"><b>{name}</b><small>{detail}</small></span><Link href={href} aria-label={"Voir "+name}><ArrowUpRight size={15}/></Link></div>}
+function Item({name,detail,logo,href}:{name:string;detail:string;logo:string;href:string}){return <div className="ecosystem-item"><span className="ecosystem-logo">{logo?<img src={logo} alt=""/>:<b>{name.slice(0,1).toUpperCase()}</b>}</span><span className="ecosystem-item-copy"><b>{name}</b><small><span className="ecosystem-item-connected">Déjà connecté</span> · {detail}</small></span><Link href={href} aria-label={"Voir "+name}><ArrowUpRight size={15}/></Link></div>}
 export default async function DashboardPage(){
  const s=await createClient();const{data:{user}}=await s.auth.getUser();if(!user)redirect("/login");
  const{data:memberships}=await s.from("workspace_members").select("workspace_id,workspaces(name)").eq("user_id",user.id).limit(1);
@@ -35,10 +35,10 @@ export default async function DashboardPage(){
  const productRows=projects.filter(p=>p.is_active&&p.platform==="other");for(const p of productRows)add(digital,"product",p.name,"Produit numérique enregistré","/dashboard/produits-numeriques");
  const fmtDate=(v:string|null)=>v?new Date(v).toLocaleDateString("fr-FR"):"Connexion active";
  const sections=[
-  {id:"apps",title:"Applications & SaaS",desc:"Sites web, applications mobiles et logiciels",count:apps.length,icon:Blocks,href:"/dashboard/saas",items:apps.map(p=>({name:p.name,detail:platformLabel[p.platform]||"Application",logo:"",href:"/dashboard/saas/"+p.id})),empty:"Importez une application pour suivre ses performances."},
+  {id:"apps",title:"Applications",desc:"Sites web, applications mobiles et logiciels",count:apps.length,icon:Blocks,href:"/dashboard/saas",items:apps.map(p=>({name:p.name,detail:platformLabel[p.platform]||"Application",logo:"",href:"/dashboard/saas/"+p.id})),empty:"Importez une application pour suivre ses performances."},
   {id:"social",title:"Réseaux sociaux",desc:"Comptes sociaux et statistiques de contenu",count:social.size,icon:ChartNoAxesCombined,href:"/dashboard/reseaux-sociaux",items:[...social.values()],empty:"Connectez Instagram, Facebook, TikTok, YouTube et vos autres réseaux."},
   {id:"shops",title:"Boutiques",desc:"Vos boutiques e-commerce connectées",count:shops.size,icon:Store,href:"/dashboard/boutiques",items:[...shops.values()],empty:"Connectez une boutique pour centraliser ses commandes."},
-  {id:"digital",title:"Produits numériques",desc:"Formations, ebooks, fichiers et plateformes de vente",count:digital.size,icon:Package,href:"/dashboard/produits-numeriques",items:[...digital.values()],empty:"Vos plateformes de produits digitaux et produits suivis apparaîtront ici."}
+  {id:"digital",title:"Produits digitaux",desc:"Formations, ebooks, fichiers et plateformes de vente",count:digital.size,icon:Package,href:"/dashboard/produits-numeriques",items:[...digital.values()],empty:"Vos plateformes de produits digitaux et produits suivis apparaîtront ici."}
  ];
  return <main className="dashboard-main">
   <header className="dashboard-header"><div><div className="eyebrow">ZENIT / CENTRE DE PILOTAGE</div><h1>Vue d’ensemble.</h1><p>Bienvenue{user.user_metadata?.full_name?", "+String(user.user_metadata.full_name).split(" ")[0]:""} · {workspace?.name||"Mon espace"}</p></div><span className="status-pill"><i/> Espace actif</span></header>
