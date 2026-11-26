@@ -1,0 +1,11 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Activity, BarChart3, Blocks, BookOpen, Cable, ChartNoAxesCombined, Globe2, LayoutDashboard, LogOut, Package, Settings2, ShoppingBag, Store, Users } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+export const dynamic="force-dynamic";
+const nav=[{href:"/dashboard",label:"Vue d’ensemble",icon:LayoutDashboard},{href:"/dashboard/saas",label:"Mes SaaS",icon:Blocks},{href:"/dashboard/boutiques",label:"Boutiques",icon:Store},{href:"/dashboard/produits-numeriques",label:"Produits numériques",icon:Package},{href:"/dashboard/formations",label:"Formations",icon:BookOpen},{href:"/dashboard/integrations",label:"Intégrations",icon:Cable},{href:"/dashboard/settings",label:"Paramètres",icon:Settings2}];
+export default async function DashboardLayout({children}:{children:React.ReactNode}){
+ const supabase=await createClient();const{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
+ const name=String(user.user_metadata?.full_name||user.email||"Compte"); 
+ return <div className="app-shell"><aside className="sidebar"><Link href="/" className="brand"><span className="brand-mark">Z</span> ZENIT</Link><div className="workspace-label">CENTRE DE PILOTAGE</div><nav className="sidebar-nav">{nav.map(({href,label,icon:Icon})=><Link key={href} href={href} className="side-muted"><Icon size={17}/>{label}</Link>)}</nav><div className="sidebar-bottom"><div className="user-avatar">{name.slice(0,1).toUpperCase()}</div><div className="user-info"><b>{name}</b><span>{user.email}</span></div><form action="/auth/signout" method="post"><button className="icon-button" aria-label="Se déconnecter"><LogOut size={17}/></button></form></div></aside><div className="dashboard-content">{children}</div></div>;
+}
