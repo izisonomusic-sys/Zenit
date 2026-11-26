@@ -33,7 +33,7 @@ export async function GET(request:NextRequest){
   const result=await readJson(await fetch("https://open.tiktokapis.com/v2/oauth/token/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body}));
   tokenData=result.data||result;
  }else{
-  const tokenUrl=new URL("https://graph.facebook.com/v21.0/oauth/access_token");
+  const tokenUrl=new URL("https://graph.facebook.com/v27.0/oauth/access_token");
   tokenUrl.searchParams.set("client_id",creds.id);tokenUrl.searchParams.set("client_secret",creds.secret);tokenUrl.searchParams.set("redirect_uri",redirectUri);tokenUrl.searchParams.set("code",code);
   tokenData=await readJson(await fetch(tokenUrl));
  }
@@ -41,7 +41,7 @@ export async function GET(request:NextRequest){
  if(!accessToken)return fail("token_missing");
  let profile:any={};
  try{
-  const profileUrl=provider==="ga4"||provider==="youtube"?"https://www.googleapis.com/oauth2/v2/userinfo":provider==="instagram"||provider==="facebook"||provider==="meta_ads"?"https://graph.facebook.com/v21.0/me?fields=id,name":provider==="tiktok"?"https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name":"https://api.linkedin.com/v2/userinfo";
+  const profileUrl=provider==="ga4"||provider==="youtube"?"https://www.googleapis.com/oauth2/v2/userinfo":provider==="instagram"||provider==="facebook"||provider==="meta_ads"?"https://graph.facebook.com/v27.0/me?fields=id,name":provider==="tiktok"?"https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name":"https://api.linkedin.com/v2/userinfo";
   const profileResponse=await fetch(profileUrl,{headers:{Authorization:"Bearer "+accessToken}});
   if(profileResponse.ok)profile=await profileResponse.json();
  }catch{}
