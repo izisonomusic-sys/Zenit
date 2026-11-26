@@ -8,7 +8,7 @@ export async function GET(){
   if (window.ZENIT || window.zenit) return;
   var script = document.currentScript;
   var key = script && script.getAttribute("data-key");
-  if (!key || key.indexOf("zn_live_") !== 0) { console.error("[ZENIT] Clé SDK absente ou invalide."); return; }
+  if (!key || key.indexOf("zn_pub_") !== 0) { console.error("[ZENIT] Clé SDK absente ou invalide."); return; }
   var endpoint = new URL(script.src).origin + "/api/v1/events";
   var storage = function (name) { try { var v = localStorage.getItem(name); if (!v) { v = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : "z" + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem(name,v); } return v; } catch(e) { return "z" + Math.random().toString(36).slice(2); } };
   var anonymousId = storage("zenit_anon_" + key.slice(0,16));
