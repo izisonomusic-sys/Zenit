@@ -16,15 +16,14 @@ export default async function DashboardPage(){
  if(!memberships?.length){const full=String(user.user_metadata?.full_name||"").trim();const base=(full||String(user.email||"Mon espace").split("@")[0]).slice(0,60);const slug=base.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,42)+"-"+crypto.randomUUID().slice(0,6);const{error}=await s.from("workspaces").insert({name:base||"Mon espace",slug,created_by:user.id});if(error)return <main className="dashboard-main"><div className="form-message">Impossible d'initialiser votre espace. Rechargez la page ou contactez le support.</div></main>;redirect("/dashboard");}
  const workspaceId=memberships[0].workspace_id;const workspace=Array.isArray(memberships[0].workspaces)?memberships[0].workspaces[0]:memberships[0].workspaces;
  const since=new Date(Date.now()-30*86400000).toISOString();
- const [pr,sr,cr,kr,er,ec]=await Promise.all([
+ const [pr,sr,cr,er,ec]=await Promise.all([
   s.from("tracked_projects").select("id,name,platform,website_url,is_active").eq("workspace_id",workspaceId).order("created_at",{ascending:false}).limit(300),
   s.from("data_sources").select("id,name,source,status,project_id,last_synced_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false}).limit(500),
   s.from("integration_connections").select("id,provider,display_name,status,project_id,last_synced_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false}).limit(500),
-  s.from("api_keys").select("project_id").eq("workspace_id",workspaceId).is("revoked_at",null).limit(500),
   s.from("events").select("project_id,event_time").eq("workspace_id",workspaceId).gte("event_time",since).limit(5000),
   s.from("events").select("id",{count:"exact",head:true}).eq("workspace_id",workspaceId).gte("event_time",since)
  ]);
- const projects=pr.data||[],sources=sr.data||[],connections=cr.data||[],keys=kr.data||[],events=er.data||[];
+ const projects=pr.data||[],sources=sr.data||[],connections=cr.data||[],events=er.data||[];
  const projectIds=new Set<string>();for(const x of sources)if(x.project_id&&x.status==="connected")projectIds.add(x.project_id);for(const x of connections)if(x.project_id&&x.status==="connected")projectIds.add(x.project_id);for(const x of events)if(x.project_id)projectIds.add(x.project_id);
  const apps=projects.filter(p=>p.is_active&&["website","web_app","mobile_app","saas"].includes(p.platform));const connectedApps=apps.filter(p=>projectIds.has(p.id));
  const social=new Map<string,{name:string;detail:string;logo:string;href:string}>();const shops=new Map<string,{name:string;detail:string;logo:string;href:string}>();const digital=new Map<string,{name:string;detail:string;logo:string;href:string}>();
