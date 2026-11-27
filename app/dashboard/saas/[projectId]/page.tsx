@@ -28,7 +28,7 @@ export default async function SaaSDetailPage({params}:{params:Promise<{projectId
  const visitors=new Set(rows.map(e=>e.anonymous_id).filter(Boolean));
  const snapshot=snapshotRows?.[0]||null;
  const snapshotProps=(snapshot?.properties||{}) as Record<string,unknown>;
- const connected=!!keys?.length||rows.length>0||(sources||[]).some(x=>x.status==="connected")||(connections||[]).some(x=>x.status==="connected");
+ const connected=Number(eventCount||0)>0||(sources||[]).some(x=>x.status==="connected"&&Boolean(x.last_synced_at))||(connections||[]).some(x=>x.status==="connected");
  const snapshotLabels=[
   ["businesses_count","Entreprises"],["clients_count","Clients"],["projects_count","Chantiers"],
   ["quotes_count","Devis"],["invoices_count","Factures"],["payments_count","Paiements"],
